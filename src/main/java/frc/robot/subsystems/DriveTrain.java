@@ -7,18 +7,36 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 
 /**
- * An example subsystem.  You can replace me with your own Subsystem.
+ * The motors that control the drive base of the robot.
  */
 public class DriveTrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  public TalonSRX frontLeft = new TalonSRX(RobotMap.FRONT_LEFT_ID);
+  public TalonSRX backLeft = new TalonSRX(RobotMap.BACK_LEFT_ID);
+  public TalonSRX frontRight = new TalonSRX(RobotMap.FRONT_RIGHT_ID);
+  public TalonSRX backRight = new TalonSRX(RobotMap.BACK_RIGHT_ID);
+
   @Override
   public void initDefaultCommand() {
+    
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
+
+  public void controllerDrive() {
+
+  }
+
+  public void joystickDrive() {
+    
+  }
+
 }
