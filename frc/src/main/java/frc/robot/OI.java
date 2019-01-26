@@ -8,6 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.VisionTrack;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -19,11 +22,33 @@ public class OI {
   //// joystick.
   // You create one by telling it which joystick it's on and which button
   // number it is.
+  /*
+  public XboxController controller = new XboxController(0);
+
+  public double getLeftStick() {
+    return controller.getRawAxis(1);
+  }
+
+  public double getRightStick() {
+    return -controller.getRawAxis(3);
+  }
+  */
+
   Joystick stick = new Joystick(0);
+  Button trigger = new JoystickButton(stick, 1);
+  
+  public double getX() {
+    return -stick.getRawAxis(0);
+  }
+
+  public double getY() {
+    return -stick.getRawAxis(1);
+  }
 
   public OI() {
-    
+    trigger.whileHeld(new VisionTrack());
   }
+
   //Button button = new JoystickButton(stick, 0);
 
 

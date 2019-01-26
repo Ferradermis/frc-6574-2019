@@ -7,9 +7,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Limelight;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -20,7 +23,14 @@ import frc.robot.subsystems.DriveTrain;
  */
 public class Robot extends TimedRobot {
   public static DriveTrain driveTrain = new DriveTrain();
+  public static Limelight limelight = new Limelight();
+
+  public static Compressor compressor = new Compressor();
+  public static DoubleSolenoid rightSolenoid = new DoubleSolenoid(0, 1);
+  public static DoubleSolenoid leftSolenoid = new DoubleSolenoid(2, 3);
+
   public static OI oi;
+  //public static Spark blinkin = new Spark(0);
 
   //Command m_autonomousCommand;
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -32,7 +42,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     oi = new OI();
-    //m_chooser.addDefault("Default Auto", new ExampleCommand());
+    limelight.ledOff();
+    //m_chooser.addDefau+lt("Default Auto", new ExampleCommand());
     // chooser.addObject("My Auto", new MyAutoCommand());
     //SmartDashboard.putData("Auto mode", m_chooser);
   }
@@ -57,6 +68,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    limelight.ledOff();
   }
 
   @Override
@@ -116,6 +128,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    //blinkin.set(-0.95);
     Scheduler.getInstance().run();
   }
 
@@ -124,6 +137,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-
+    compressor.setClosedLoopControl(true);
+    compressor.start();
+    if (oi.stick.getTrigger()) {
+      leftSolenoid.set(DoubleSolenoid.Value.kForward);
+      rightSolenoid.set(DoubleSolenoid.Value.kForward);
+    } else {
+      leftSolenoid.set(DoubleSolenoid.Value.kReverse);
+      rightSolenoid.set(DoubleSolenoid.Value.kReverse);
+    }
   }
-}
+} 
