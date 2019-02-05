@@ -14,22 +14,44 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
-  // For example to map the left and right motors, you could define the
-  // following variables to use with your drivetrain subsystem.
-  // public static int leftMotor = 1;
-  // public static int rightMotor = 2;
 
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // public static int rangefinderPort = 1;
-  // public static int rangefinderModule = 1;
+  /*
+    PWM port values
+  */
+  public static final int BLINKIN_ID = -1;
 
-  /**
-   * Front left drive train motor CAN ID.
-   */
-  public static final int FRONT_LEFT_ID = 2;
-  public static final int BACK_LEFT_ID = 1;
-  public static final int FRONT_RIGHT_ID = 3;
-  public static final int BACK_RIGHT_ID = 4;
+  /*
+    CAN ID values
+  */
+  /** Front left drive train motor CAN ID. */
+  public static final int FRONT_LEFT_CAN_ID = 1;
+  /** Back left drive train motor CAN ID. */
+  public static final int BACK_LEFT_CAN_ID = 3;
+  /** Front right drive train motor CAN ID. */
+  public static final int FRONT_RIGHT_CAN_ID = 2;
+  /** Back right drive train motor CAN ID. */
+  public static final int BACK_RIGHT_CAN_ID = 4;
   
+  /** Wedge deployment motor CAN ID. */
+  public static final int WEDGE_MOTOR_CAN_ID = -1;
+
+  /** Cargo intake motor CAN ID. */
+  public static final int CARGO_INTAKE_CAN_ID = -1;
+  /** Cargo deploy motor CAN ID. */
+  public static final int CARGO_DEPLOY_CAN_ID = -1;
+  
+  /** Climb lift extension CAN ID. */
+  public static final int CLIMB_EXTENDER_CAN_ID = -1;
+  /** Climb wheel CAN ID. */
+  public static final int CLIMB_WHEEL_CAN_ID = -1;
+
+  /** Front lift CAN ID. */
+  public static final int FRONT_LIFT_CAN_ID = -1;
+
+  /*
+    PCM ID values
+  */
+  /** Hatch intake solenoid ID. */
+  public static final int HATCH_EXTENDER_ID = -1;
+
 }

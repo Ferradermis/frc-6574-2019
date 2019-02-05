@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.Shift;
 import frc.robot.commands.VisionTrack;
 
 /**
@@ -36,6 +37,7 @@ public class OI {
 
   Joystick stick = new Joystick(0);
   Button trigger = new JoystickButton(stick, 1);
+  Button button3 = new JoystickButton(stick, 3);
   
   public double getX() {
     return -stick.getRawAxis(0);
@@ -47,6 +49,7 @@ public class OI {
 
   public OI() {
     trigger.whileHeld(new VisionTrack());
+    button3.whenPressed(new Shift());
   }
 
   //Button button = new JoystickButton(stick, 0);

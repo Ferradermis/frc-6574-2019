@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -22,11 +23,13 @@ public class DriveTrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public TalonSRX frontLeft = new TalonSRX(RobotMap.FRONT_LEFT_ID);
-  public TalonSRX backLeft = new TalonSRX(RobotMap.BACK_LEFT_ID);
-  public TalonSRX frontRight = new TalonSRX(RobotMap.FRONT_RIGHT_ID);
-  public TalonSRX backRight = new TalonSRX(RobotMap.BACK_RIGHT_ID);
+  public TalonSRX frontLeft = new TalonSRX(RobotMap.FRONT_LEFT_CAN_ID);
+  public TalonSRX backLeft = new TalonSRX(RobotMap.BACK_LEFT_CAN_ID);
+  public TalonSRX frontRight = new TalonSRX(RobotMap.FRONT_RIGHT_CAN_ID);
+  public TalonSRX backRight = new TalonSRX(RobotMap.BACK_RIGHT_CAN_ID);
 
+  public DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
+  
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new ArcadeDrive());
@@ -93,13 +96,18 @@ public class DriveTrain extends Subsystem {
    * and rotation is controlled by the X axis.
    */
   public void arcadeDrive() {
-    double throt = deadband(Robot.oi.getY());
+    double throt = deadband(Robot.oi.getY() * 0.7);
     double turn = deadband(Robot.oi.getX() * 0.3);
+
+    spinLeft(throt + turn);
+    spinRight(throt - turn);
+
+    System.out.println("Left: " + (throt + turn) + "Right: " + (throt - turn));
     //if (throt > 0) {
       //if (throt < 0)
        // turn = -turn;
-      spinLeft(turn + throt);
-      spinRight(-turn + throt);
+      //spinLeft(turn + throt);
+      //spinRight(-turn + throt);
     /*} else if (throt < 0) {
       turn = -turn;
       frontLeft.set(ControlMode.PercentOutput, turn + throt);

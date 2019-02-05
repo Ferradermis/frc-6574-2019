@@ -11,8 +11,13 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.CargoIntake;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.FrontLift;
+import frc.robot.subsystems.HatchIntake;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Wedges;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,11 +28,16 @@ import frc.robot.subsystems.Limelight;
  */
 public class Robot extends TimedRobot {
   public static DriveTrain driveTrain = new DriveTrain();
+  public static Wedges wedges = new Wedges();
+  public static FrontLift frontLift = new FrontLift();
+  public static Climber climber = new Climber();
+  public static HatchIntake hatchIntake = new HatchIntake();
+  public static CargoIntake cargoIntake = new CargoIntake();
   public static Limelight limelight = new Limelight();
 
   public static Compressor compressor = new Compressor();
-  public static DoubleSolenoid rightSolenoid = new DoubleSolenoid(0, 1);
-  public static DoubleSolenoid leftSolenoid = new DoubleSolenoid(2, 3);
+  //public static DoubleSolenoid rightSolenoid = new DoubleSolenoid(0, 1);
+  //public static DoubleSolenoid leftSolenoid = new DoubleSolenoid(2, 3);
 
   public static OI oi;
   //public static Spark blinkin = new Spark(0);
@@ -43,7 +53,87 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     oi = new OI();
     limelight.ledOff();
-    //m_chooser.addDefau+lt("Default Auto", new ExampleCommand());
+   
+    /*
+    //System.out.println("I N I T");
+
+    //UsbCamera camera = new UsbCamera("USB Camera 5", 1);
+    UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+    //camera.setPixelFormat(PixelFormat.kMJPEG);
+    //CameraServer.getInstance().addCamera(camera);
+    //UsbCamera backward = CameraServer.getInstance().startAutomaticCapture(RobotMap.camera.BACKWARD_USB_NUM);
+    camera.setResolution(160, 120);
+    //backward.setResolution(640, 480);
+    CvSink forwardSink = CameraServer.getInstance().getVideo();
+    //CvSink backwardSink = CameraServer.getInstance().getVideo(backward);
+    CvSource outputStream = CameraServer.getInstance().putVideo("Working Camera Feed", 160, 120);
+
+    Mat in = new Mat();
+    Mat out = new Mat();
+
+    new Thread(() -> {
+      while (!Thread.interrupted()) {
+        forwardSink.grabFrame(in);
+        Imgproc.blur(in, out, new Size(4, 4));
+        outputStream.putFrame(out);
+      }
+    }).start();
+*/
+    //new Thread(() -> {
+      //while (Thread.interrupted()) {
+        //Mat image = new Mat();
+        //Mat output = new Mat();
+        //forwardSink.grabFrame(image);
+        //output = image.clone();
+        //outputStream.putFrame(image);
+      //}
+      //System.out.println("It works here");
+		//	while (!Thread.interrupted()) {
+				//if (frontCamera) {
+          //while(true) {
+          //System.out.println(forwardSink.grabFrame(image));
+          //output = image;
+          //Imgproc.cvtColor(image, output, Imgproc.COLOR_BGR2GRAY);
+          //outputStream.putFrame(output);
+          //try {
+          //Thread.sleep(100);
+          //} catch (Exception e) {
+
+          //}
+        //}
+				//} else {
+				//	backwardSink.grabFrame(image);
+				//	outputStream.putFrame(image);
+				//}
+		//	}
+		//}).start();
+
+    //CameraServer.getInstance().startAutomaticCapture();
+    /*new Thread(() -> {
+      CameraServer.getInstance().startAutomaticCapture();
+      CvSink cvSink = CameraServer.getInstance().getVideo();
+      CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 160, 120);  
+    }).start();*/
+    //new Thread(() -> {
+      
+
+      /*UsbCamera usbCamera = new UsbCamera("USB 1", 0);
+      CvSink feed = new CvSink("USB 1 Sink");
+      feed.setSource(usbCamera);
+      CvSource output = new CvSource("USB 1 Source", PixelFormat.kMJPEG, 160, 120, 30);
+      MjpegServer server = new MjpegServer("USB 1 Server", 1181);*/
+    //}).start();
+    /*UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
+    MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
+    mjpegServer1.setSource(usbCamera); 
+
+    CvSink cvSink = new CvSink("opencv_USB Camera 0");
+    cvSink.setSource(usbCamera);
+    CvSource outputStream = new CvSource("Blur", PixelFormat.kMJPEG, 640, 480, 30);
+    
+    MjpegServer mjpegServer2 = new MjpegServer("serve_Blur", 1182);
+    mjpegServer2.setSource(outputStream);*/
+    //m_chooser.addDefault("Default Auto", new ExampleCommand());
     // chooser.addObject("My Auto", new MyAutoCommand());
     //SmartDashboard.putData("Auto mode", m_chooser);
   }
@@ -137,7 +227,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    compressor.setClosedLoopControl(true);
+    //System.out.println();
+    /*compressor.setClosedLoopControl(true);
     compressor.start();
     if (oi.stick.getTrigger()) {
       leftSolenoid.set(DoubleSolenoid.Value.kForward);
@@ -145,6 +236,6 @@ public class Robot extends TimedRobot {
     } else {
       leftSolenoid.set(DoubleSolenoid.Value.kReverse);
       rightSolenoid.set(DoubleSolenoid.Value.kReverse);
-    }
+    }*/
   }
 } 

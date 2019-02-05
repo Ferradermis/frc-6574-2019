@@ -7,13 +7,15 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 import frc.robot.Robot;
 
-public class ArcadeDrive extends Command {
-  public ArcadeDrive() {
-    requires(Robot.driveTrain);
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.command.Command;
+
+public class Shift extends Command {
+  public Shift() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
@@ -24,13 +26,17 @@ public class ArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.arcadeDrive();
+    if (Robot.driveTrain.shifter.get() == DoubleSolenoid.Value.kForward) {
+      Robot.driveTrain.shifter.set(DoubleSolenoid.Value.kReverse);
+    } else {
+      Robot.driveTrain.shifter.set(DoubleSolenoid.Value.kForward);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
