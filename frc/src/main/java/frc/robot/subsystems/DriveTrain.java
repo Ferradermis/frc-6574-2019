@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.Functions;
 
 /**
  * The motors that control the drive base of the robot.
@@ -58,10 +59,6 @@ public class DriveTrain extends Subsystem {
     }*/
   }
 
-  private double deadband(double val) {
-    return val = (val < -0.2 ? val : (val > 0.2 ? val : (val = 0)));
-  }
-
   /**
    * Controls the robot based on identified vision targets, orienting
    * itself and allowing forward and backward movement when a target
@@ -96,8 +93,8 @@ public class DriveTrain extends Subsystem {
    * and rotation is controlled by the X axis.
    */
   public void arcadeDrive() {
-    double throt = deadband(Robot.oi.getY() * 0.7);
-    double turn = deadband(Robot.oi.getX() * 0.3);
+    double throt = Functions.deadband(Robot.oi.getY() * 0.7);
+    double turn = Functions.deadband(Robot.oi.getX() * 0.3);
 
     spinLeft(throt + turn);
     spinRight(throt - turn);

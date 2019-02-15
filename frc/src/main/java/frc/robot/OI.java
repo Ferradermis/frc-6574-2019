@@ -36,9 +36,33 @@ public class OI {
   */
 
   Joystick stick = new Joystick(0);
+  Joystick gamepad = new Joystick(1);//added by Allison, created a gamepad element
+
   Button trigger = new JoystickButton(stick, 1);
   Button button3 = new JoystickButton(stick, 3);
+
+  Button bButton = new JoystickButton(gamepad, 3);
+  Button yButton = new JoystickButton(gamepad, 4);
+  Button aButton = new JoystickButton(gamepad, 2);
+  Button xButton = new JoystickButton(gamepad, 1);
+
+  public double getGamepadLeftX() {
+    return -gamepad.getRawAxis(0);
+  }
+
+  public double getGamepadLeftY() {
+    return -gamepad.getRawAxis(1);
+  }
   
+  public double getGamepadRightX() {
+    return -gamepad.getRawAxis(2);
+  }
+
+  public double getGamepadRightY() {
+    return -gamepad.getRawAxis(3);
+  }
+
+
   public double getX() {
     return -stick.getRawAxis(0);
   }

@@ -45,4 +45,9 @@ public class FrontLift extends Subsystem {
     //liftMotor.set(ControlMode.PercentOutput, speed);
   }
 
+  public double getPosition() {
+    return 0;
+    //return liftMotor.getSelectedSensorPosition();
+  }
+
 }

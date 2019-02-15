@@ -8,7 +8,7 @@
 package frc.robot;
 
 /**
- * Add your docs here.
+ * Various functions that may be useful throughout the project.
  */
 public class Functions {
 
@@ -24,6 +24,16 @@ public class Functions {
      */
     public static double map(double val, double oldMin, double oldMax, double newMin, double newMax) {
         return (val - oldMin) / (oldMax - oldMin) * (newMax - newMin) + newMin;
+    }
+    
+    /**
+     * Returns the provided value only if it falls outside of the minimum magnitudes.
+     * 
+     * @param val   the value to check
+     * @return      val if greater than 0.2 or less than -0.2, otherwise 0
+     */
+    public static double deadband(double val) {//made public to steal for testInit - Allison
+        return val = (val < -0.2 ? val : (val > 0.2 ? val : (val = 0)));
     }
 
 }
