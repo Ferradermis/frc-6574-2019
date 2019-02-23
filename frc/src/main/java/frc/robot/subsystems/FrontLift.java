@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -24,7 +25,7 @@ public class FrontLift extends Subsystem {
   public static final double MID = 0;
   public static final double HIGH = 0;
 
-  //public TalonSRX liftMotor = new TalonSRX(RobotMap.FRONT_LIFT_CAN_ID);
+  public TalonSRX liftMotor = new TalonSRX(RobotMap.FRONT_LIFT_CAN_ID);
   
   @Override
   public void initDefaultCommand() {
@@ -38,16 +39,16 @@ public class FrontLift extends Subsystem {
    * @param newPosition a position value indicating intended position
    */
   public void setPosition(double newPosition) {
-    //liftMotor.set(ControlMode.Position, newPosition);
+    liftMotor.set(ControlMode.Position, newPosition);
   }
 
   public void set(double speed) {
-    //liftMotor.set(ControlMode.PercentOutput, speed);
+    liftMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public double getPosition() {
-    return 0;
-    //return liftMotor.getSelectedSensorPosition();
+    //return 0;
+    return liftMotor.getSelectedSensorPosition();
   }
 
 }

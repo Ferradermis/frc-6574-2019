@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -20,7 +21,7 @@ public class Wedges extends Subsystem {
   // here. Call these from Commands.
 
   public static final double MAX_ROTATE = 0;
-  //public TalonSRX wedgeMotor = new TalonSRX(RobotMap.WEDGE_MOTOR_CAN_ID);
+  public TalonSRX wedgeMotor = new TalonSRX(RobotMap.WEDGE_MOTOR_CAN_ID);
 
   @Override
   public void initDefaultCommand() {
@@ -32,14 +33,14 @@ public class Wedges extends Subsystem {
    * Deploys the wedges into the position necessary for climbing.
    */
   public void deploy() {
-    //wedgeMotor.set(ControlMode.Position, MAX_ROTATE);
+    wedgeMotor.set(ControlMode.Position, MAX_ROTATE);
   }
 
   /**
    * Retracts the wedges into the starting position within the frame perimeter.
    */
   public void retract() {
-    //wedgeMotor.set(ControlMode.Position, 0);
+    wedgeMotor.set(ControlMode.Position, 0);
   }
   
 }

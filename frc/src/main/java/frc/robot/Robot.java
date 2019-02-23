@@ -7,15 +7,16 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode; //added by Allison
-import com.ctre.phoenix.motorcontrol.can.TalonSRX; //added by Allison
-//import frc.robot.OI;
+import javax.print.attribute.standard.PrinterName;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.CargoIntake;
@@ -41,18 +42,18 @@ public class Robot extends TimedRobot {
   public static HatchIntake hatchIntake = new HatchIntake();
   public static CargoIntake cargoIntake = new CargoIntake();
   public static Limelight limelight = new Limelight();
-
   public static Compressor compressor = new Compressor();
+  public static boolean toggleOn = false;
+  public static boolean togglePressed = false;
 
   UsbCamera camera1;
   UsbCamera camera2;
 
   VideoSink cameraServer;
-  // public static DoubleSolenoid rightSolenoid = new DoubleSolenoid(0, 1);
-  // public static DoubleSolenoid leftSolenoid = new DoubleSolenoid(2, 3);
+  
 
   public static OI oi;
-  // public static Spark blinkin = new Spark(0);
+  public static Spark blinkin = new Spark(0);
 
   // Command m_autonomousCommand;
   // SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -63,17 +64,24 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    oi = new OI();
-    limelight.ledOff();
-    camera1 = CameraServer.getInstance().startAutomaticCapture(0);
-    camera2 = CameraServer.getInstance().startAutomaticCapture(1);
+    oi = new OI(); // import all joystick buttons
+    limelight.ledOff(); // turn the lime_light off to not blind people
+    camera1 = CameraServer.getInstance().startAutomaticCapture(0); // start camera feed 1
+    camera2 = CameraServer.getInstance().startAutomaticCapture(1); // start camera feed 2
     cameraServer = CameraServer.getInstance().getServer();
 
-    compressor.setClosedLoopControl(false);
+    compressor.start(); //compressor init code
+    compressor.setClosedLoopControl(true);
   }
 
 
   boolean prevTrigger = false;
+
+  public double lastValueLift = 0;
+  public double lastValueCargo = 0;
+  public double lastValueWedge = 0;
+
+  public DigitalInput liftZero = new DigitalInput(0);
   /**
    * This function is called every robot packet, no matter the mode. Use this for
    * items like diagnostics that you want ran during disabled, autonomous,
@@ -85,12 +93,98 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    if (oi.stick.getTrigger() && !prevTrigger) {
+
+    compressor.start();
+    compressor.setClosedLoopControl(true);
+
+    if (oi.rightStickTrigger.get()) { // right joystick is shifting control
+      driveTrain.shifter.set(DoubleSolenoid.Value.kForward);
+    } else if (oi.rightStickSideButton.get()) {
+      driveTrain.shifter.set(DoubleSolenoid.Value.kReverse);
+    }
+
+    if (oi.leftStickTrigger.get()) { // left joystick is camera feed control
+      cameraServer.setSource(camera1);
+    } else if (oi.leftStickSideButton.get()) {
+      cameraServer.setSource(camera2);
+    }
+
+    if (lastValueLift != frontLift.liftMotor.getSelectedSensorPosition()) {
+      lastValueLift = frontLift.liftMotor.getSelectedSensorPosition();
+      System.out.println("Lift: " + lastValueLift);
+    }
+    if (lastValueCargo != cargoIntake.deployMotor.getSelectedSensorPosition()) {
+      lastValueCargo = cargoIntake.deployMotor.getSelectedSensorPosition();
+      System.out.println("Cargo: " + lastValueCargo);
+    }
+    if (lastValueWedge != wedges.wedgeMotor.getSelectedSensorPosition()) {
+      lastValueWedge = wedges.wedgeMotor.getSelectedSensorPosition();
+      System.out.println("Wedge: " + lastValueWedge);
+    }
+    if (!liftZero.get()) {
+      //System.out.println("Bottom reached");
+      frontLift.liftMotor.setSelectedSensorPosition(0);
+    }
+
+    double rawLiftSpeed = Functions.deadband(oi.getGamepadLeftY());
+    double rawClimberSpeed = Functions.deadband(oi.getGamepadRightY());
+    if (oi.bButton.get()) {
+      if (!liftZero.get()) {
+        if (rawLiftSpeed < 0) {
+          frontLift.liftMotor.set(ControlMode.PercentOutput, 0);
+        } else {
+          frontLift.liftMotor.set(ControlMode.PercentOutput, rawLiftSpeed);
+        }
+      } else {
+        if (frontLift.liftMotor.getSelectedSensorPosition() < 26000) {
+          frontLift.liftMotor.set(ControlMode.PercentOutput, rawLiftSpeed);
+        }
+      }
+      frontLift.liftMotor.set(ControlMode.PercentOutput, rawLiftSpeed);
+      System.out.println(rawClimberSpeed);
+      climber.extender.set(ControlMode.PercentOutput, rawClimberSpeed * 0.85);
+    } else {
+      frontLift.liftMotor.set(ControlMode.PercentOutput, 0);
+      climber.extender.set(ControlMode.PercentOutput, 0);
+    }
+
+    if (oi.xButton.get()) {
+      wedges.wedgeMotor.set(ControlMode.PercentOutput, 0.9);// needs to be .85 - Allison
+      //frontLift.liftMotor.set(ControlMode.Position, 1300);
+      //cargoIntake.spin(-0.3);
+    } else if (oi.aButton.get()) {
+      wedges.wedgeMotor.set(ControlMode.PercentOutput, -0.9);
+      //frontLift.liftMotor.set(ControlMode.Position, 400);
+      //cargoIntake.spin(0.3);
+    } else {
+      wedges.wedgeMotor.set(ControlMode.PercentOutput, 0);
+      //cargoIntake.spin(0);
+    }
+
+    if (oi.yButton.get()) {
+      climber.wheel.set(ControlMode.PercentOutput, -0.8);
+    } else {
+      climber.wheel.set(ControlMode.PercentOutput, 0);
+    }
+
+    //if (oi.gamepad.get)
+
+    /*if (oi.stick.getTrigger() && !prevTrigger) {
       cameraServer.setSource(camera2);
     } else if (!oi.stick.getTrigger() && prevTrigger) {
       cameraServer.setSource(camera1);
     }
     prevTrigger = oi.stick.getTrigger();
+
+    if (oi.stick.getRawButton(7)) {
+      blinkin.set(-0.87); //confetti
+    } else if (oi.stick.getRawButton(8)) {
+      blinkin.set(-0.25); //red
+    } else if (oi.stick.getRawButton(9)) {
+      blinkin.set(-0.23); //blue
+    } else if (oi.stick.getRawButton(10)) {
+      blinkin.set(0.53);
+    }*/
   }
 
   /**
@@ -101,6 +195,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     limelight.ledOff();
+    compressor.stop();
   }
 
   @Override
@@ -169,21 +264,55 @@ public class Robot extends TimedRobot {
    * This function is called periodically during test mode.
    */
 
-  public double lastValue = 0;
-
-  public DigitalInput liftZero = new DigitalInput(0);
-
   @Override
   public void testPeriodic() {
+    
+    updateToggle();
+    
+    /*if (oi.rightStickTrigger.get()) { // right joystick is shifting control
+      driveTrain.shifter.set(DoubleSolenoid.Value.kForward);
+      pressed = 
+      System.out.println("pressed: " +pressed);
+    } else if (oi.rightStickSideButton.get()) {
+      driveTrain.shifter.set(DoubleSolenoid.Value.kReverse);
+    }*/
 
-    if (lastValue != driveTrain.frontLeft.getSelectedSensorPosition()) {
-      lastValue = driveTrain.frontLeft.getSelectedSensorPosition();
-      System.out.println(lastValue);
+    if(toggleOn){
+      driveTrain.shifter.set(DoubleSolenoid.Value.kForward);
+      System.out.println("toggle on");
+  }
+  else
+  {
+    driveTrain.shifter.set(DoubleSolenoid.Value.kReverse);
+    System.out.println("toggle off");   
+  }   
+
+  }
+
+    public void updateToggle()
+    {
+    if(oi.rightStickTrigger.get()){
+        if(!togglePressed)
+        {
+            toggleOn = !toggleOn;
+            togglePressed = true;
+         
+        }
+        else if(togglePressed)
+        {
+          
+            togglePressed = false;
+  
+        }
+        try {
+        Thread.sleep(100);
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
-    if (!liftZero.get()) {
-      //System.out.println("Bottom reached");
-      driveTrain.frontLeft.setSelectedSensorPosition(0);
-    }
+   
+  
 
     // System.out.println();
     /*
@@ -194,32 +323,16 @@ public class Robot extends TimedRobot {
      * rightSolenoid.set(DoubleSolenoid.Value.kReverse); }
      */
 
-    TalonSRX frontLift = new TalonSRX(RobotMap.FRONT_LEFT_CAN_ID);// change this when we plug more talons in - Allison
     // Another version of raw lifter control, hold b to activate, left gamepad joy
     // is speed
-    double rawLiftSpeed = Functions.deadband(oi.getGamepadLeftY());
-    if (oi.bButton.get()) {
-      if (!liftZero.get()) {
-        if (rawLiftSpeed < 0) {
-          frontLift.set(ControlMode.PercentOutput, 0);
-        } else {
-          frontLift.set(ControlMode.PercentOutput, rawLiftSpeed);
-        }
-      } else {
-        frontLift.set(ControlMode.PercentOutput, rawLiftSpeed);
-      }
-      // System.out.println("Left y is... " +
-      // driveTrain.deadband(oi.getGamepadLeftY()));
-      frontLift.set(ControlMode.PercentOutput, rawLiftSpeed);
-    } else {
-      frontLift.set(ControlMode.PercentOutput, 0);
-    }
 
-    if (oi.xButton.get()) {
-      frontLift.set(ControlMode.Position, 1300);
-    } else if (oi.aButton.get()) {
-      frontLift.set(ControlMode.Position, 400);
-    }
+    /*
+    double val = Functions.deadband(oi.getGamepadRightY());
+    if (val != 0) {
+      climber.wheel.set(ControlMode.PercentOutput, val);
+    } else {
+      climber.wheel.set(ControlMode.PercentOutput, 0);
+    }*/
 
     /*
      * 

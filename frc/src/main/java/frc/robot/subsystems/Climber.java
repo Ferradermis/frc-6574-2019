@@ -20,8 +20,9 @@ import frc.robot.RobotMap;
 public class Climber extends Subsystem {
 
   public static final double MAX_EXTEND = 0;
-  //public TalonSRX extender = new TalonSRX(RobotMap.CLIMB_EXTENDER_CAN_ID);
-  //public VictorSPX wheel = new VictorSPX(RobotMap.CLIMB_WHEEL_CAN_ID);
+  public TalonSRX extender = new TalonSRX(RobotMap.CLIMB_EXTENDER_CAN_ID);
+  public VictorSPX wheel = new VictorSPX(RobotMap.CLIMB_WHEEL_CAN_ID);
+  public double speed = 0.5;
 
   @Override
   public void initDefaultCommand() {
@@ -30,19 +31,19 @@ public class Climber extends Subsystem {
   } 
 
   public void lowerClimber() {
-    //extender.set(ControlMode.Position, MAX_EXTEND);
+    extender.set(ControlMode.Position, MAX_EXTEND);
   }
 
   public void raiseClimber() {
-    //extender.set(ControlMode.Position, 0);
+    extender.set(ControlMode.Position, 0);
   }
 
   public void driveForward() {
-    //wheel.set(ControlMode.PercentOutput, 0.5);
+    wheel.set(ControlMode.PercentOutput, speed);
   }
 
   public void driveBackward() {
-    //wheel.set(ControlMode.PercentOutput, -0.5);
+    wheel.set(ControlMode.PercentOutput, -speed);
   }
 
 }

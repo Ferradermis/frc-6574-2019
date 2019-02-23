@@ -7,17 +7,22 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 
 /**
  * The roller mechanism used to intake cargo game elements.
  */
 public class CargoIntake extends Subsystem {
 
-  public static final double MAX_ROTATE = 0;
+  public static final double MAX_ROTATE = -1000;
 
-  //public void VictorSPX spinMotor = new VictorSPX(RobotMap.CARGO_INTAKE_CAN_ID);
-  //public void TalonSRX deployMotor = new TalonSRX(RobotMap.CARGO_DEPLOY_CAN_ID);
+  public VictorSPX spinMotor = new VictorSPX(RobotMap.CARGO_INTAKE_CAN_ID);
+  public TalonSRX deployMotor = new TalonSRX(RobotMap.CARGO_DEPLOY_CAN_ID);
 
   @Override
   public void initDefaultCommand() {
@@ -27,18 +32,18 @@ public class CargoIntake extends Subsystem {
 
   /**
    * 
-   * @param value a value in the range -1 (full inward) to 1 (full outward)
+   * @param value (0.3) a value in the range -0.5 (full inward) to 0.5 (full outward)
    */
   public void spin(double speed) {
-    //spinMotor.set(ControlMode.PercentOutput, speed);
+    spinMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public void deploy() {
-    //deployMotor.set(ControlMode.Position, MAX_ROTATE);
+    deployMotor.set(ControlMode.Position, MAX_ROTATE);
   }
 
   public void retract() {
-    //deployMotor.set(ControlMode.Position, 0);
+    deployMotor.set(ControlMode.Position, 0);
   }
 
 }

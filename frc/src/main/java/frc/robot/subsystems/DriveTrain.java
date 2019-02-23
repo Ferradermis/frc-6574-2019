@@ -9,13 +9,14 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Functions;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ArcadeDrive;
-import frc.robot.Functions;
 
 /**
  * The motors that control the drive base of the robot.
@@ -25,11 +26,11 @@ public class DriveTrain extends Subsystem {
   // here. Call these from Commands.
 
   public TalonSRX frontLeft = new TalonSRX(RobotMap.FRONT_LEFT_CAN_ID);
-  public TalonSRX backLeft = new TalonSRX(RobotMap.BACK_LEFT_CAN_ID);
+  public VictorSPX backLeft = new VictorSPX(RobotMap.BACK_LEFT_CAN_ID);
   public TalonSRX frontRight = new TalonSRX(RobotMap.FRONT_RIGHT_CAN_ID);
-  public TalonSRX backRight = new TalonSRX(RobotMap.BACK_RIGHT_CAN_ID);
+  public VictorSPX backRight = new VictorSPX(RobotMap.BACK_RIGHT_CAN_ID);
 
-  public DoubleSolenoid shifter = new DoubleSolenoid(0, 1);
+  public DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.SHIFTER_ID_BACK, RobotMap.SHIFTER_ID_FORWARD);
   
   @Override
   public void initDefaultCommand() {
@@ -75,9 +76,9 @@ public class DriveTrain extends Subsystem {
         spinLeft(-0.23);
         spinRight(0.23);
       } else {
-        if (Robot.oi.getY() > 0.2 || Robot.oi.getY() < 0.2) {
-          spinLeft(Robot.oi.getY());
-          spinRight(Robot.oi.getY());
+        if (Robot.oi.getLeftStickY() > 0.2 || Robot.oi.getLeftStickY() < 0.2) {
+          spinLeft(Robot.oi.getLeftStickY());
+          spinRight(Robot.oi.getLeftStickY());
         } else {
           stop();
         }
@@ -93,13 +94,45 @@ public class DriveTrain extends Subsystem {
    * and rotation is controlled by the X axis.
    */
   public void arcadeDrive() {
-    double throt = Functions.deadband(Robot.oi.getY() * 0.7);
+
+    double left = -Robot.oi.leftStick.getY();
+    double right = -Robot.oi.rightStick.getY();
+    
+    if (Math.abs(left) > 0.2) {
+      spinLeft(left);
+    } else {
+      stopLeft();
+    }
+
+    if (Math.abs(right) > 0.2) {
+      spinRight(right);
+    } else {
+      stopRight();
+    }
+
+    /*
+    double y = -Robot.oi.stick.getLeftStickY();
+    double twist = Robot.oi.stick.getZ();
+    if (y > 0.2 || y < -0.2) {
+      spinLeft(y);
+      spinRight(y);
+    } else {
+      if (twist < -0.2 || twist > 0.2) {
+        spinLeft(twist * 0.4);
+        spinRight(-twist * 0.4);
+      } else {
+        stop();
+      }
+    }*/
+
+
+    /*double throt = Functions.deadband(Robot.oi.getLeftStickY() * 0.7);
     double turn = Functions.deadband(Robot.oi.getX() * 0.3);
 
     spinLeft(throt + turn);
     spinRight(throt - turn);
 
-    System.out.println("Left: " + (throt + turn) + "Right: " + (throt - turn));
+    System.out.println("Left: " + (throt + turn) + " Right: " + (throt - turn));*/
     //if (throt > 0) {
       //if (throt < 0)
        // turn = -turn;
@@ -120,11 +153,11 @@ public class DriveTrain extends Subsystem {
 
 
     /*
-    if (Math.abs(Robot.oi.getX()) > 0.1 || Math.abs(Robot.oi.getY()) > 0.1) {
-      frontLeft.set(ControlMode.PercentOutput, Robot.oi.getY() - Robot.oi.getX());
-      backLeft.set(ControlMode.PercentOutput, Robot.oi.getY() - Robot.oi.getX());
-      frontRight.set(ControlMode.PercentOutput, Robot.oi.getY() + Robot.oi.getX());
-      backRight.set(ControlMode.PercentOutput, Robot.oi.getY() + Robot.oi.getX());
+    if (Math.abs(Robot.oi.getX()) > 0.1 || Math.abs(Robot.oi.getLeftStickY()) > 0.1) {
+      frontLeft.set(ControlMode.PercentOutput, Robot.oi.getLeftStickY() - Robot.oi.getX());
+      backLeft.set(ControlMode.PercentOutput, Robot.oi.getLeftStickY() - Robot.oi.getX());
+      frontRight.set(ControlMode.PercentOutput, Robot.oi.getLeftStickY() + Robot.oi.getX());
+      backRight.set(ControlMode.PercentOutput, Robot.oi.getLeftStickY() + Robot.oi.getX());
     } else {
       frontLeft.set(ControlMode.PercentOutput, 0);
       backLeft.set(ControlMode.PercentOutput, 0);
@@ -139,8 +172,8 @@ public class DriveTrain extends Subsystem {
    * @param speed a double in the range of -1 to 1
    */
   public void spinLeft(double speed) {
-    frontLeft.set(ControlMode.PercentOutput, speed);
-    backLeft.set(ControlMode.PercentOutput, speed);
+    frontLeft.set(ControlMode.PercentOutput, -speed);
+    backLeft.set(ControlMode.PercentOutput, -speed);
   }
 
   /**
@@ -156,8 +189,8 @@ public class DriveTrain extends Subsystem {
    * @param speed a double in the range of -1 to 1
    */
   public void spinRight(double speed) {
-    frontRight.set(ControlMode.PercentOutput, -speed);
-    backRight.set(ControlMode.PercentOutput, -speed);
+    frontRight.set(ControlMode.PercentOutput, speed);
+    backRight.set(ControlMode.PercentOutput, speed);
   }
 
   /**
