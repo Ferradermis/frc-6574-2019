@@ -33,7 +33,7 @@ public class RobotMap {
   public static final int BACK_RIGHT_CAN_ID = 4;
   
   /** Wedge deployment motor CAN ID. */
-  public static final int WEDGE_MOTOR_CAN_ID = 5;
+  public static final int WEDGE_MOTOR_CAN_ID = 7; //CHANGED FROM 5 
 
   /** Cargo intake motor CAN ID. */
   public static final int CARGO_INTAKE_CAN_ID = 10;
@@ -46,7 +46,7 @@ public class RobotMap {
   public static final int CLIMB_WHEEL_CAN_ID = 9;
 
   /** Front lift CAN ID. */
-  public static final int FRONT_LIFT_CAN_ID = 7;
+  public static final int FRONT_LIFT_CAN_ID = 5; //CHANGED FROM 7
 
   /*
     PCM ID values

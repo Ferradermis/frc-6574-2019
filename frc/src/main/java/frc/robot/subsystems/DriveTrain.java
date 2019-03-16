@@ -7,15 +7,14 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.Functions;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.OI;
 import frc.robot.commands.ArcadeDrive;
 
 /**
@@ -25,10 +24,10 @@ public class DriveTrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  public TalonSRX frontLeft = new TalonSRX(RobotMap.FRONT_LEFT_CAN_ID);
-  public VictorSPX backLeft = new VictorSPX(RobotMap.BACK_LEFT_CAN_ID);
-  public TalonSRX frontRight = new TalonSRX(RobotMap.FRONT_RIGHT_CAN_ID);
-  public VictorSPX backRight = new VictorSPX(RobotMap.BACK_RIGHT_CAN_ID);
+  public CANSparkMax frontLeft = new CANSparkMax(RobotMap.FRONT_LEFT_CAN_ID, MotorType.kBrushless);
+  public CANSparkMax backLeft = new CANSparkMax(RobotMap.BACK_LEFT_CAN_ID, MotorType.kBrushless);
+  public CANSparkMax frontRight = new CANSparkMax(RobotMap.FRONT_RIGHT_CAN_ID, MotorType.kBrushless);
+  public CANSparkMax backRight = new CANSparkMax(RobotMap.BACK_RIGHT_CAN_ID, MotorType.kBrushless);
 
   public DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.SHIFTER_ID_BACK, RobotMap.SHIFTER_ID_FORWARD);
   
@@ -76,12 +75,12 @@ public class DriveTrain extends Subsystem {
         spinLeft(-0.23);
         spinRight(0.23);
       } else {
-        if (Robot.oi.getLeftStickY() > 0.2 || Robot.oi.getLeftStickY() < 0.2) {
-          spinLeft(Robot.oi.getLeftStickY());
-          spinRight(Robot.oi.getLeftStickY());
-        } else {
-          stop();
-        }
+        //if (Robot.oi.getLeftStickY() > 0.2 || Robot.oi.getLeftStickY() < 0.2) {
+        spinLeft(0.4);
+        spinRight(0.4);
+        //} else {
+        //  stop();
+        //}
       }
     } else {
       arcadeDrive();
@@ -95,6 +94,40 @@ public class DriveTrain extends Subsystem {
    */
   public void arcadeDrive() {
 
+    double left = Robot.oi.getLogitechLeftY();
+    double right = Robot.oi.getLogitechRightY();
+    double lt = Robot.oi.getLogitechLeftTrigger();
+    double rt = Robot.oi.getLogitechRightTrigger();
+
+    if (lt > 0.2) {
+      lt = 0.5;
+    } else {
+      lt = 1;
+    }
+
+
+    if (Robot.oi.l_xButton.get()) {
+      spinLeft(Robot.oi.getLogitechLeftY());
+      spinRight(Robot.oi.getLogitechLeftY());
+    } else {
+    if (left > 0.2) {
+      spinLeft((left * 0.7 + rt * 0.3) * lt);
+    } else if (left < -0.2) {
+      spinLeft((left * 0.7 - rt * 0.3) * lt);
+    } else {
+      stopLeft();
+    }
+
+    if (right > 0.2) {
+      spinRight((right * 0.7 + rt * 0.3) * lt);
+    } else if (right < -0.2) {
+      spinRight((right * 0.7 - rt * 0.3) * lt);
+    } else {
+      stopRight();
+    }
+  }
+
+    /*
     double left = -Robot.oi.leftStick.getY();
     double right = -Robot.oi.rightStick.getY();
     
@@ -108,7 +141,7 @@ public class DriveTrain extends Subsystem {
       spinRight(right);
     } else {
       stopRight();
-    }
+    }*/
 
     /*
     double y = -Robot.oi.stick.getLeftStickY();
@@ -172,8 +205,8 @@ public class DriveTrain extends Subsystem {
    * @param speed a double in the range of -1 to 1
    */
   public void spinLeft(double speed) {
-    frontLeft.set(ControlMode.PercentOutput, -speed);
-    backLeft.set(ControlMode.PercentOutput, -speed);
+    frontLeft.set(-speed);
+    backLeft.set(-speed);
   }
 
   /**
@@ -189,8 +222,8 @@ public class DriveTrain extends Subsystem {
    * @param speed a double in the range of -1 to 1
    */
   public void spinRight(double speed) {
-    frontRight.set(ControlMode.PercentOutput, speed);
-    backRight.set(ControlMode.PercentOutput, speed);
+    frontRight.set(speed);
+    backRight.set(speed);
   }
 
   /**

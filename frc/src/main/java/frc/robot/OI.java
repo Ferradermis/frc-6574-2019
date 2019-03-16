@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.POVButton;
-import frc.robot.commands.Shift;
-import frc.robot.commands.VisionTrack;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -20,118 +18,113 @@ import frc.robot.commands.VisionTrack;
  */
 public class OI {
 
-  //assign all joysticks to names
-  public Joystick leftStick = new Joystick(0);
-  public Joystick rightStick = new Joystick(1);
-  public Joystick gamepad = new Joystick(2);
+  public Joystick logitech = new Joystick(0);
+  public Joystick xbox = new Joystick(1);
 
+  // Logitech Variables
+  public Button l_xButton = new JoystickButton(logitech, 3);
+  public Button l_aButton = new JoystickButton(logitech, 1);
+  public Button l_bButton = new JoystickButton(logitech, 2);
+  public Button l_yButton = new JoystickButton(logitech, 4);
+  public Button l_leftBumper = new JoystickButton(logitech, 5);
+  public Button l_rightBumper = new JoystickButton(logitech, 6);
+  //public Button l_leftTrigger = new JoystickButton(logitech, 7);
+  public Button l_backButton = new JoystickButton(logitech, 7);
+  public Button l_startButton = new JoystickButton(logitech, 8);
+  //public Button l_rightTrigger = new JoystickButton(logitech, 8);
+  //public Button l_backButton = new JoystickButton(logitech, 9);
+  //public Button l_startButton = new JoystickButton(logitech, 10);
+  public POVButton l_upDpad = new POVButton(logitech, 0);
+  public POVButton l_rightDpad = new POVButton(logitech, 90);
+  public POVButton l_downDpad = new POVButton(logitech, 180);
+  public POVButton l_leftDpad = new POVButton(logitech, 270);
 
-  // Left Stick Variables
-  public Button leftStickTrigger = new JoystickButton(leftStick, 1);
-  public Button leftStickSideButton = new JoystickButton(leftStick, 2);
-  public Button leftStickButton3 = new JoystickButton(leftStick, 3);
-  public Button leftStickButton4 = new JoystickButton(leftStick, 4);
-  public Button leftStickButton5 = new JoystickButton(leftStick, 5);
-  public Button leftStickButton6 = new JoystickButton(leftStick, 6);
-  public Button leftStickButton7 = new JoystickButton(leftStick, 7);
-  public Button leftStickButton8 = new JoystickButton(leftStick, 8);
-  public Button leftStickButton9 = new JoystickButton(leftStick, 9);
-  public Button leftStickButton10 = new JoystickButton(leftStick, 10);
-  public Button leftStickButton11 = new JoystickButton(leftStick, 11);
-  public Button leftStickButton12 = new JoystickButton(leftStick, 12);
-
-  public double getLeftStickX() {
-    return -leftStick.getRawAxis(0);
+  public double getLogitechLeftX() {
+    return -logitech.getRawAxis(0);
   }
 
-  public double getLeftStickY() {
-    return -leftStick.getRawAxis(1);
+  public double getLogitechLeftY() {
+    return -logitech.getRawAxis(1);
   }
 
-  // Right Stick Variables
-  public Button rightStickTrigger = new JoystickButton(rightStick, 1);
-  public Button rightStickSideButton = new JoystickButton(rightStick, 2);
-  public Button rightStickButton3 = new JoystickButton(rightStick, 3);
-  public Button rightStickButton4 = new JoystickButton(rightStick, 4);
-  public Button rightStickButton5 = new JoystickButton(rightStick, 5);
-  public Button rightStickButton6 = new JoystickButton(rightStick, 6);
-  public Button rightStickButton7 = new JoystickButton(rightStick, 7);
-  public Button rightStickButton8 = new JoystickButton(rightStick, 8);
-  public Button rightStickButton9 = new JoystickButton(rightStick, 9);
-  public Button rightStickButton10 = new JoystickButton(rightStick, 10);
-  public Button rightStickButton11 = new JoystickButton(rightStick, 11);
-  public Button rightStickButton12 = new JoystickButton(rightStick, 12);
-
-  public double getRightStickX() {
-    return -rightStick.getRawAxis(0);
+  public double getLogitechRightX() {
+    return -logitech.getRawAxis(2);
   }
 
-  public double getRightStickY() {
-    return -rightStick.getRawAxis(1);
+  public double getLogitechRightY() {
+    return -logitech.getRawAxis(5);
   }
 
-
-
-
-
-
-  // Gamepad Variables
-  public Button xButton = new JoystickButton(gamepad, 1);
-  public Button aButton = new JoystickButton(gamepad, 2);
-  public Button bButton = new JoystickButton(gamepad, 3);
-  public Button yButton = new JoystickButton(gamepad, 4);
-  public Button leftBumper = new JoystickButton(gamepad, 5);
-  public Button rightBumper = new JoystickButton(gamepad, 6);
-  public Button leftTrigger = new JoystickButton(gamepad, 7);
-  public Button rightTrigger = new JoystickButton(gamepad, 8);
-  public Button backButton = new JoystickButton(gamepad, 9);
-  public Button startButton = new JoystickButton(gamepad, 10);
-  public POVButton upDpad = new POVButton(gamepad, 0);
-  public POVButton rightDpad = new POVButton(gamepad, 90);
-  public POVButton downDpad = new POVButton(gamepad, 180);
-  public POVButton leftDpad = new POVButton(gamepad, 270);
-
-  public double getGamepadLeftX() {
-    return -gamepad.getRawAxis(0);
+  public double getLogitechLeftTrigger() {
+    return logitech.getRawAxis(2);
   }
 
-  public double getGamepadLeftY() {
-    return -gamepad.getRawAxis(1);
+  public double getLogitechRightTrigger() {
+    return logitech.getRawAxis(3);
   }
 
-  public double getGamepadRightX() {
-    return -gamepad.getRawAxis(2);
+  public boolean getLogitechLeftBumper() {
+    return xbox.getRawButton(5);
   }
 
-  public double getGamepadRightY() {
-    return -gamepad.getRawAxis(3);
+  public boolean getLogitechRightBumper() {
+    return xbox.getRawButton(6);
   }
 
+  // Xbox Variables
+  public Button x_xButton = new JoystickButton(xbox, 3);
+  public Button x_aButton = new JoystickButton(xbox, 1);
+  public Button x_bButton = new JoystickButton(xbox, 2);
+  public Button x_yButton = new JoystickButton(xbox, 4);
+  public Button x_leftBumper = new JoystickButton(xbox, 5);
+  public Button x_rightBumper = new JoystickButton(xbox, 6);
+  public Button x_backButton = new JoystickButton(xbox, 7);
+  public Button x_startButton = new JoystickButton(xbox, 8);
+  //public Button x_leftTrigger = new JoystickButton(xbox, 7);
+  //public Button x_rightTrigger = new JoystickButton(xbox, 8);
+  //public Button x_backButton = new JoystickButton(xbox, 9);
+  //public Button x_startButton = new JoystickButton(xbox, 10);
+  public POVButton x_upDpad = new POVButton(xbox, 0);
+  public POVButton x_rightDpad = new POVButton(xbox, 90);
+  public POVButton x_downDpad = new POVButton(xbox, 180);
+  public POVButton x_leftDpad = new POVButton(xbox, 270);
+
+  public double getXboxLeftX() {
+    return -xbox.getRawAxis(0);
+  }
+
+  public double getXboxLeftY() {
+    return -xbox.getRawAxis(1);
+  }
+
+  public double getXboxRightX() {
+    return -xbox.getRawAxis(2);
+  }
+
+  public double getXboxRightY() {
+    return -xbox.getRawAxis(5);
+  }
+
+  public double getXboxLeftTrigger() {
+    return xbox.getRawAxis(2);
+  }
+
+  public double getXboxRightTrigger() {
+    return xbox.getRawAxis(3);
+  }
+
+  public boolean getXboxLeftBumper() {
+    return xbox.getRawButton(5);
+  }
+
+  public boolean getXboxRightBumper() {
+    return xbox.getRawButton(6);
+  }
 
   public OI() {
-    leftStickTrigger.whileHeld(new VisionTrack());
-    leftStickButton3.whenPressed(new Shift());
+    
+    //leftStickTrigger.whileHeld(new VisionTrack());
+    //leftStickButton3.whenPressed(new Shift());
   }
 
-  // Button button = new JoystickButton(leftStick, 0);
-
-  // There are a few additional built in buttons you can use. Additionally,
-  // by subclassing Button you can create custom triggers and bind those to
-  // commands the same as any other Button.
-
-  //// TRIGGERING COMMANDS WITH BUTTONS
-  // Once you have a button, it's trivial to bind it to a button in one of
-  // three ways:
-
-  // Start the command when the button is pressed and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenPressed(new ExampleCommand());
-
-  // Run the command while the button is being held down and interrupt it once
-  // the button is released.
-  // button.whileHeld(new ExampleCommand());
-
-  // Start the command when the button is released and let it run the command
-  // until it is finished as determined by it's isFinished method.
-  // button.whenReleased(new ExampleCommand());
 }
