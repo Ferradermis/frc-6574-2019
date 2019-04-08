@@ -94,6 +94,41 @@ public class DriveTrain extends Subsystem {
    */
   public void arcadeDrive() {
 
+    double y = -Robot.oi.logitech.getRawAxis(1);
+    double x = Robot.oi.logitech.getRawAxis(0);
+
+    y = Math.pow(y, 3);
+    x = 0.5 * Math.pow(x, 3);
+
+    double left = y + x;
+    double right = y - x;
+
+    if (left > 1) {
+      left = 1;
+    } else if (left < -1) {
+      left = -1;
+    }
+
+    if (right > 1) {
+      right = 1;
+    } else if (right < -1) {
+      right = -1;
+    }
+
+    if (Math.abs(x) > 0.1 || Math.abs(y) > 0.1) {
+      if (Robot.oi.getLogitechLeftTrigger() > 0.1) {
+        spinLeft(left * 0.5);
+        spinRight(right * 0.5);
+      } else {
+        spinLeft(left);
+        spinRight(right);
+      }
+    } else {
+      stopLeft();
+      stopRight();
+    }
+
+    /*
     double left = Robot.oi.getLogitechLeftY();
     double right = Robot.oi.getLogitechRightY();
     double lt = Robot.oi.getLogitechLeftTrigger();
@@ -125,7 +160,7 @@ public class DriveTrain extends Subsystem {
     } else {
       stopRight();
     }
-  }
+  }*/
 
     /*
     double left = -Robot.oi.leftStick.getY();
