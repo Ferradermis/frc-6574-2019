@@ -126,6 +126,7 @@ public class DriveTrain extends Subsystem {
     } else {
       stopLeft();
       stopRight();
+      }
     }
 
     /*
@@ -220,8 +221,8 @@ public class DriveTrain extends Subsystem {
     }*/
 
 
-    /*
-    if (Math.abs(Robot.oi.getX()) > 0.1 || Math.abs(Robot.oi.getLeftStickY()) > 0.1) {
+    
+    /*if (Math.abs(Robot.oi.getX()) > 0.1 || Math.abs(Robot.oi.getLeftStickY()) > 0.1) {
       frontLeft.set(ControlMode.PercentOutput, Robot.oi.getLeftStickY() - Robot.oi.getX());
       backLeft.set(ControlMode.PercentOutput, Robot.oi.getLeftStickY() - Robot.oi.getX());
       frontRight.set(ControlMode.PercentOutput, Robot.oi.getLeftStickY() + Robot.oi.getX());
@@ -231,8 +232,8 @@ public class DriveTrain extends Subsystem {
       backLeft.set(ControlMode.PercentOutput, 0);
       frontRight.set(ControlMode.PercentOutput, 0);
       backRight.set(ControlMode.PercentOutput, 0);
-    }*/
-  }
+    }
+  }*/
 
   /**
    * Spins the two left side motors of the robot's drive base.

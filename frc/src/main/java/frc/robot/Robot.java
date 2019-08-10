@@ -25,6 +25,7 @@ import frc.robot.subsystems.FrontLift;
 import frc.robot.subsystems.HatchIntake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Wedges;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -53,6 +54,8 @@ public class Robot extends TimedRobot {
   public static OI oi;
   public static Spark blinkin = new Spark(0);
 
+  //public static Timer timer = new Timer();
+
 public double readCargoDegree() {
   return cargoIntake.deployMotor.getSelectedSensorPosition() / 10.75;
 }
@@ -78,14 +81,26 @@ public double readCargoDegree() {
     compressor.setClosedLoopControl(true);
 
     cargoIntake.deployMotor.config_kF(0, 0);
-    cargoIntake.deployMotor.config_kP(0, 1.5);
+    cargoIntake.deployMotor.config_kP(0, 2.5);
     cargoIntake.deployMotor.config_kI(0, 0);
     cargoIntake.deployMotor.config_kD(0, 0);
 
-    frontLift.liftMotor.config_kF(0, 1.8); //1.8
-    frontLift.liftMotor.config_kP(0, 0.000025);
-    frontLift.liftMotor.config_kI(0, 0);
-    frontLift.liftMotor.config_kD(0, 0);
+    //timer.start();
+
+    //Need time to test before adding
+    //cargoIntake.deployMotor.configMotionCruiseVelocity(51 * 2 * 2 * 3 * 2 * 2);
+    //cargoIntake.deployMotor.configMotionAcceleration(30 * 2 * 3 * 2 * 2);
+
+    //frontLift.liftMotor.config_kF(0, 0.25); //1.8
+    
+    //frontLift.liftMotor.config_kF(0, 0);
+    //frontLift.liftMotor.config_kP(0, 3);
+    //frontLift.liftMotor.config_kI(0, 0);
+    //frontLift.liftMotor.config_kD(0, 0);
+
+    //frontLift.liftMotor.configAllowableClosedloopError(0, 25);
+
+    //frontLift.liftMotor.setSelectedSensorPosition(0);
 
     driveTrain.frontRight.setOpenLoopRampRate(0.2);
     driveTrain.backLeft.setOpenLoopRampRate(0.2);
@@ -104,8 +119,10 @@ public double readCargoDegree() {
   public double lastValueWedge = 0;
 
   public double lastCargoPosition = 0;
+  public double targetLiftPosition = 0;
 
   public DigitalInput liftZero = new DigitalInput(0);
+  public DigitalInput cargoZero = new DigitalInput(1);
   public DigitalInput climbTop = new DigitalInput(2);
   public DigitalInput liftTop = new DigitalInput(3);
 
@@ -135,7 +152,7 @@ public double readCargoDegree() {
     if (oi.x_startButton.get()) {
       endgame = true;
       cargoIntake.deployMotor.set(ControlMode.Position, 0);
-      frontLift.liftMotor.set(ControlMode.PercentOutput, 0);
+      //frontLift.liftMotor.set(ControlMode.PercentOutput, 0);
     } else if (oi.x_backButton.get()) {
       endgame = false;
     }
@@ -162,6 +179,11 @@ public double readCargoDegree() {
     if (!liftZero.get()) {
       frontLift.liftMotor.setSelectedSensorPosition(0);
     }
+
+    if (!cargoZero.get()) {
+      cargoIntake.deployMotor.setSelectedSensorPosition(0);
+      lastCargoPosition = 0;
+    }
     
     //Encoder value printing
 
@@ -184,14 +206,14 @@ public double readCargoDegree() {
     //Wedges, climber, emergency game piecer lifting
     if (endgame) {
 
-      blinkin.set(-0.41);
+      blinkin.set(-0.91); 
 
       driveTrain.shifter.set(DoubleSolenoid.Value.kReverse);
       
       //Wedge controls
       if (oi.x_aButton.get()) {
         //Need to find position
-        wedges.wedgeMotor.set(ControlMode.PercentOutput, 0.9); //Wedge down
+        wedges.wedgeMotor.set(ControlMode.PercentOutput, 0.7); //Wedge down
       } else if (oi.x_bButton.get()) {
         //Need to find position
         wedges.wedgeMotor.set(ControlMode.PercentOutput, -0.9); //Wedge up
@@ -209,6 +231,7 @@ public double readCargoDegree() {
       if (oi.getXboxLeftY() > 0.2 && climbTop.get()) {
         climber.extender.set(ControlMode.PercentOutput, -oi.getXboxLeftY());
       } else if (oi.getXboxLeftY() < -0.2) {
+
         climber.extender.set(ControlMode.PercentOutput, -oi.getXboxLeftY());
       } else {
         climber.extender.set(ControlMode.PercentOutput, 0);
@@ -223,7 +246,8 @@ public double readCargoDegree() {
     //Front lift, game piecer
     } else {
 
-      blinkin.set(-0.57);
+      
+      blinkin.set(-0.57); //-.91 (green/forest palette), -.67(party palette)
 
       if (Math.abs(oi.getXboxRightY()) > 0.2) {
         //lastCargoPosition = cargoIntake.deployMotor.getSelectedSensorPosition();
@@ -232,11 +256,12 @@ public double readCargoDegree() {
         if (oi.x_bButton.get()) {
           cargoIntake.deployMotor.set(ControlMode.Position, 0);
           lastCargoPosition = 0;
-        } else if (oi.x_xButton.get()) {
-          cargoIntake.deployMotor.set(ControlMode.Position, -700);
-        } else if (oi.x_aButton.get()) {
-          cargoIntake.deployMotor.set(ControlMode.Position, -900);
-          lastCargoPosition = -900;
+        } else if (oi.x_xButton.get()) { //x
+          cargoIntake.deployMotor.set(ControlMode.Position, -750);
+          lastCargoPosition = -750;
+        } else if (oi.x_aButton.get()) { //a
+          cargoIntake.deployMotor.set(ControlMode.Position, -950);
+          lastCargoPosition = -950;
         } else {
           cargoIntake.deployMotor.set(ControlMode.Position, lastCargoPosition);
         }
@@ -260,24 +285,33 @@ public double readCargoDegree() {
       /* PUT THIS BACK FOR MATCH
       */
       if (oi.getXboxLeftY() > 0.2 && liftTop.get()) {
+        /*System.out.println("Going up");
+        System.out.println("Stick: " + oi.getXboxLeftY());
+        System.out.println("Sensor: " + frontLift.liftMotor.getSelectedSensorPosition());
+        System.out.println("New target: " + (frontLift.liftMotor.getSelectedSensorPosition() + oi.getXboxLeftY() * 300));
+        frontLift.liftMotor.config_kF(0, 0.25);
+        frontLift.liftMotor.set(ControlMode.Position, frontLift.liftMotor.getSelectedSensorPosition() + oi.getXboxLeftY() * 300);*/
         frontLift.liftMotor.set(ControlMode.PercentOutput, oi.getXboxLeftY() * 0.85 + 0.15);
       } else if (oi.getXboxLeftY() < -0.2 && liftZero.get()) {
+        /*System.out.println("Going down");
+        System.out.println("Stick: " + oi.getXboxLeftY());
+        System.out.println("Sensor: " + frontLift.liftMotor.getSelectedSensorPosition());
+        System.out.println("New target: " + (frontLift.liftMotor.getSelectedSensorPosition() + oi.getXboxLeftY() * 300));
+        frontLift.liftMotor.config_kF(0, -0.25);
+        frontLift.liftMotor.set(ControlMode.Position, frontLift.liftMotor.getSelectedSensorPosition() + oi.getXboxLeftY() * 300);*/
         frontLift.liftMotor.set(ControlMode.PercentOutput, oi.getXboxLeftY() * 0.5);
       } else {
         frontLift.liftMotor.set(ControlMode.PercentOutput, 0.15);
       }
 
-      /*
-      if (oi.x_xButton.get()) {
 
-      } else if (oi.x_yButton.get()) {
-
-      } else {
-
-      }*/
 
       //Game piecer controls
       
+      if (oi.logitech.getRawButton(7)) {
+        cargoIntake.deployMotor.setSelectedSensorPosition(0);
+      }
+
       if (Math.abs(oi.getXboxLeftTrigger()) > 0.2) {
         cargoIntake.spinMotor.set(ControlMode.PercentOutput, 0.5);
       } else if (Math.abs(oi.getXboxRightTrigger()) > 0.2) {
@@ -308,14 +342,7 @@ public double readCargoDegree() {
     }
     prevTrigger = oi.stick.getTrigger();
 
-    if (oi.stick.getRawButton(7)) {
-      blinkin.set(-0.87); //confetti
-    } else if (oi.stick.getRawButton(8)) {
-      blinkin.set(-0.25); //red
-    } else if (oi.stick.getRawButton(9)) {
-      blinkin.set(-0.23); //blue
-    } else if (oi.stick.getRawButton(10)) {
-      blinkin.set(0.53);
+
     }*/
   }
 
@@ -386,9 +413,6 @@ public double readCargoDegree() {
     // if (m_autonomousCommand != null) {
     // m_autonomousCommand.cancel();
     // }
-    
-    frontLift.liftMotor.setSelectedSensorPosition(0);
-    cargoIntake.deployMotor.setSelectedSensorPosition(0);
   }
 
   /**
