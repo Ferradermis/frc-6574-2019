@@ -13,9 +13,11 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.CargoIntake;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
@@ -42,7 +44,7 @@ public class Robot extends TimedRobot {
 
   VideoSink cameraServer;
 
-  
+  PowerDistributionPanel pdp = new PowerDistributionPanel();
   public static OI oi;
   public static Spark blinkin = new Spark(0);
 
@@ -65,7 +67,6 @@ public class Robot extends TimedRobot {
     compressor.start(); //compressor init code
     compressor.setClosedLoopControl(true);
 
-    //timer.start();
     endgame = false;
     cargoIntake.deployMotor.setSelectedSensorPosition(0);
   }
@@ -78,6 +79,23 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    
+    //PDP CHANNELS ARE NOT ACCURATE, NUMBERS INPUT SO IT COMPILES. 
+    //DOESN'T HURT ANYTHING BUT NEED TO GET THESE ON THE PROPER CHANNELS
+    double totalCurrent = pdp.getTotalCurrent();
+    double frontLiftCurrent = pdp.getCurrent(0);
+    double wedgesCurrent = pdp.getCurrent(1);
+    double cargoIntakeCurrent = pdp.getCurrent(2);
+    double climbCurrent = pdp.getCurrent(3);
+    double GPCurrent = pdp.getCurrent(4);
+
+    SmartDashboard.putNumber("Total Current", totalCurrent);    
+    SmartDashboard.putNumber("Front Lift Current", frontLiftCurrent);
+    SmartDashboard.putNumber("Wedges Current", wedgesCurrent);
+    SmartDashboard.putNumber("Cargo Intake Current", cargoIntakeCurrent);
+    SmartDashboard.putNumber("Climbing Elevator Current", climbCurrent);
+    SmartDashboard.putNumber("Game Piecer Current", GPCurrent);
+
     compressor.start();
     compressor.setClosedLoopControl(true);
 
