@@ -68,11 +68,19 @@ public class DriveTrain extends Subsystem {
   public void arcadeDrive() {
 
     double rampRate = 0.2;
+    int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense
 
     frontRight.setOpenLoopRampRate(rampRate);
+    frontRight.setSmartCurrentLimit(currentLimit);
+
     backLeft.setOpenLoopRampRate(rampRate);
+    backLeft.setSmartCurrentLimit(currentLimit);
+
     frontLeft.setOpenLoopRampRate(rampRate);
+    frontLeft.setSmartCurrentLimit(currentLimit);
+
     backRight.setOpenLoopRampRate(rampRate);
+    backRight.setSmartCurrentLimit(currentLimit);
 
     double y = -Robot.oi.logitech.getRawAxis(1);
     double x = Robot.oi.logitech.getRawAxis(0);
@@ -109,9 +117,9 @@ public class DriveTrain extends Subsystem {
       }
       
       if (Robot.oi.l_leftBumper.get()) {
-        shifter.set(DoubleSolenoid.Value.kForward);
+        shifter.set(DoubleSolenoid.Value.kForward); //WRITE WHICH GEAR THIS IS
       } else if (Robot.oi.l_rightBumper.get()) {
-        shifter.set(DoubleSolenoid.Value.kReverse);
+        shifter.set(DoubleSolenoid.Value.kReverse); //WRITE WHICH GEAR THIS IS
       }
     }
 

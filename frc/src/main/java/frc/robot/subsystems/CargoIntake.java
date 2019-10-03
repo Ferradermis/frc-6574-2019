@@ -10,12 +10,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import frc.robot.Robot;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.ManipulateCargo;
-import edu.wpi.first.wpilibj.DigitalInput;
- 
 
 /**
  * The roller mechanism used to intake cargo game elements.

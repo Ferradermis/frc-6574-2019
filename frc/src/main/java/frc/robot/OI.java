@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.POVButton;
+import frc.robot.commands.VisionTrack;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -38,8 +39,8 @@ public class OI {
   public Button l_rightBumper = new JoystickButton(logitech, 6);
   //public Button l_leftTrigger = new JoystickButton(logitech, 7);
   public Button l_backButton = new JoystickButton(logitech, 7);
-  public Button l_startButton = new JoystickButton(logitech, 8);
-  //public Button l_rightTrigger = new JoystickButton(logitech, 8);
+  //public Button l_startButton = new JoystickButton(logitech, 8);
+  public Button l_rightTrigger = new JoystickButton(logitech, 8);
   //public Button l_backButton = new JoystickButton(logitech, 9);
   //public Button l_startButton = new JoystickButton(logitech, 10);
   public POVButton l_upDpad = new POVButton(logitech, 0);
@@ -131,7 +132,7 @@ public class OI {
 
   public OI() {
     
-    //leftStickTrigger.whileHeld(new VisionTrack());
+    l_rightTrigger.whileHeld(new VisionTrack());
     //leftStickButton3.whenPressed(new Shift());
   }
 
