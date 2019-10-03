@@ -80,8 +80,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     
-    //PDP CHANNELS ARE NOT ACCURATE, NUMBERS INPUT SO IT COMPILES. 
-    //DOESN'T HURT ANYTHING BUT NEED TO GET THESE ON THE PROPER CHANNELS
+    /*
+    PDP CHANNELS ARE NOT ACCURATE, NUMBERS INPUT SO IT COMPILES. 
+    DOESN'T HURT ANYTHING BUT NEED TO GET THESE ON THE PROPER CHANNELS
+    We can use these to determine used current during normal operation for mechanisms
+    that failed routinely due to stalling or running at high current for extended periods of time
+    due to either user failure or poorly managed closed loop control
+    */
     double totalCurrent = pdp.getTotalCurrent();
     double frontLiftCurrent = pdp.getCurrent(0);
     double wedgesCurrent = pdp.getCurrent(1);
@@ -99,7 +104,7 @@ public class Robot extends TimedRobot {
     compressor.start();
     compressor.setClosedLoopControl(true);
 
-    //It pains me, but for now it seems most efficient to keep this chunk here.
+    //It pains me, but for now it seems most efficient to keep this chunk here. 
     if (Robot.oi.x_startButton.get()) {
       endgame = true;
       Robot.cargoIntake.deployMotor.set(ControlMode.Position, 0);
@@ -131,6 +136,7 @@ public class Robot extends TimedRobot {
     compressor.stop();
     endgame = false;
     //cargoIntake.deployMotor.setSelectedSensorPosition(0);
+    //hoping this just resets the game piecer to position zero upon disabling the robot instead of it drooping sadly
   }
 
   @Override

@@ -26,8 +26,7 @@ public class CargoIntake extends Subsystem {
   public VictorSPX spinMotor = new VictorSPX(RobotMap.CARGO_INTAKE_CAN_ID);
   public TalonSRX deployMotor = new TalonSRX(RobotMap.CARGO_DEPLOY_CAN_ID);
 
-  public DigitalInput cargoZeroLimit = new DigitalInput(1);
-
+  public DigitalInput cargoZeroLimit = new DigitalInput(1); //currently unused to my knowledge
 
   public double lastCargoPosition = 0;
   
@@ -43,8 +42,8 @@ public class CargoIntake extends Subsystem {
   //PID constants with feed forward also implemented
   deployMotor.config_kF(1, 1.752 * Math.cos(readCargoDegree()));
   deployMotor.config_kP(0, 2.5);
-  deployMotor.config_kI(0, 0);
-  deployMotor.config_kD(0, 0);
+  //deployMotor.config_kI(0, 0);
+  //deployMotor.config_kD(0, 0);
 
   if (Math.abs(Robot.oi.getXboxRightY()) > 0.2) {
     //lastCargoPosition = cargoIntake.deployMotor.getSelectedSensorPosition();
