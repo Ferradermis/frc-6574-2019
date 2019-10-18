@@ -49,8 +49,8 @@ public class Robot extends TimedRobot {
   public static Spark blinkin = new Spark(0);
 
   //public static Timer timer = new Timer();
-  // Command m_autonomousCommand;
-  // SendableChooser<Command> m_chooser = new SendableChooser<>();
+  //Command m_autonomousCommand;
+  //SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   public static boolean getEndgame() {
     return endgame;
@@ -111,6 +111,7 @@ public class Robot extends TimedRobot {
       //frontLift.liftMotor.set(ControlMode.PercentOutput, 0);
     } else if (Robot.oi.x_backButton.get()) {
       endgame = false;
+      Robot.blinkin.set(-0.57);
     }  
 
     //Encoder value printing

@@ -40,7 +40,7 @@ public class OI {
   //public Button l_leftTrigger = new JoystickButton(logitech, 7);
   public Button l_backButton = new JoystickButton(logitech, 7);
   //public Button l_startButton = new JoystickButton(logitech, 8);
-  public Button l_rightTrigger = new JoystickButton(logitech, 8);
+  //public Button l_rightTrigger = new JoystickButton(logitech, 8);
   //public Button l_backButton = new JoystickButton(logitech, 9);
   //public Button l_startButton = new JoystickButton(logitech, 10);
   public POVButton l_upDpad = new POVButton(logitech, 0);
@@ -131,8 +131,7 @@ public class OI {
   }
 
   public OI() {
-    
-    l_rightTrigger.whileHeld(new VisionTrack());
+    l_xButton.whileHeld(new VisionTrack());
     //leftStickButton3.whenPressed(new Shift());
   }
 

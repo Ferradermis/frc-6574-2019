@@ -34,8 +34,6 @@ public class Wedges extends Subsystem {
 
   public void WedgeControl() {
     if (Robot.getEndgame()) {
-
-      Robot.blinkin.set(-0.91); 
       Robot.driveTrain.shifter.set(DoubleSolenoid.Value.kReverse);
       
       //Wedge controls
@@ -43,7 +41,7 @@ public class Wedges extends Subsystem {
         wedgeMotor.set(ControlMode.PercentOutput, 0.7); //Wedges down
       } 
       else if (Robot.oi.x_bButton.get()) {
-        wedgeMotor.set(ControlMode.PercentOutput, -0.9); //Wedges up
+        wedgeMotor.set(ControlMode.PercentOutput, -0.4); //Wedges up
       } 
       else {
         wedgeMotor.set(ControlMode.PercentOutput, 0);
