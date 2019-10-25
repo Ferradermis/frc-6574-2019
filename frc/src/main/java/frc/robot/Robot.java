@@ -86,6 +86,7 @@ public double readCargoDegree() {
     cargoIntake.deployMotor.config_kD(0, 0);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     //timer.start();
 
     //Need time to test before adding
@@ -108,6 +109,8 @@ public double readCargoDegree() {
     driveTrain.frontLeft.setOpenLoopRampRate(0.2);
     driveTrain.backRight.setOpenLoopRampRate(0.2);
 =======
+=======
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
     frontLift.liftMotor.config_kF(0, 1.8); //1.8
     frontLift.liftMotor.config_kP(0, 0.000025);
     frontLift.liftMotor.config_kI(0, 0);
@@ -115,6 +118,9 @@ public double readCargoDegree() {
     
     
     //frontLift.liftMotor.set(ControlMode.PercentOutput, 0);
+<<<<<<< HEAD
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
+=======
 >>>>>>> parent of b361a68... Post-Milwaukee working copy
 
     endgame = false;
@@ -136,9 +142,12 @@ public double readCargoDegree() {
   public double lastValueWedge = 0;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   public double lastCargoPosition = 0;
   public double targetLiftPosition = 0;
 
+=======
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
 =======
 >>>>>>> parent of b361a68... Post-Milwaukee working copy
   public DigitalInput liftZero = new DigitalInput(0);
@@ -184,8 +193,11 @@ public double readCargoDegree() {
     if (oi.x_startButton.get()) {
       endgame = true;
 <<<<<<< HEAD
+<<<<<<< HEAD
       cargoIntake.deployMotor.set(ControlMode.Position, 0);
       //frontLift.liftMotor.set(ControlMode.PercentOutput, 0);
+=======
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
 =======
 >>>>>>> parent of b361a68... Post-Milwaukee working copy
     } else if (oi.x_backButton.get()) {
@@ -212,6 +224,7 @@ public double readCargoDegree() {
     }*/
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     if (!liftZero.get()) {
       frontLift.liftMotor.setSelectedSensorPosition(0);
     }
@@ -220,6 +233,8 @@ public double readCargoDegree() {
       cargoIntake.deployMotor.setSelectedSensorPosition(0);
       lastCargoPosition = 0;
     }
+=======
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
 =======
 >>>>>>> parent of b361a68... Post-Milwaukee working copy
     
@@ -245,9 +260,12 @@ public double readCargoDegree() {
     //Wedges, climber, emergency game piecer lifting
     if (endgame) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
       blinkin.set(-0.91); 
 
+=======
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
 =======
 >>>>>>> parent of b361a68... Post-Milwaukee working copy
       driveTrain.shifter.set(DoubleSolenoid.Value.kReverse);
@@ -257,11 +275,17 @@ public double readCargoDegree() {
       
       //Wedge controls
 <<<<<<< HEAD
+<<<<<<< HEAD
       if (oi.x_aButton.get()) {
         //Need to find position
         wedges.wedgeMotor.set(ControlMode.PercentOutput, 0.7); //Wedge down
       } else if (oi.x_bButton.get()) {
         //Need to find position
+=======
+      if (oi.x_xButton.get()) {
+        wedges.wedgeMotor.set(ControlMode.PercentOutput, 0.9); //Wedge down
+      } else if (oi.x_aButton.get()) {
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
 =======
       if (oi.x_xButton.get()) {
         wedges.wedgeMotor.set(ControlMode.PercentOutput, 0.9); //Wedge down
@@ -297,6 +321,7 @@ public double readCargoDegree() {
     //Front lift, game piecer
     } else {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
       
       blinkin.set(-0.57); //-.91 (green/forest palette), -.67(party palette)
@@ -321,6 +346,9 @@ public double readCargoDegree() {
 =======
       cargoIntake.deployMotor.configOpenloopRamp(0);
 >>>>>>> parent of b361a68... Post-Milwaukee working copy
+=======
+      cargoIntake.deployMotor.configOpenloopRamp(0);
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
       
       cargoIntake.deployMotor.configClosedloopRamp(0);
       //Front lift controls
@@ -333,6 +361,7 @@ public double readCargoDegree() {
         frontLift.liftMotor.set(ControlMode.PercentOutput, 0.15); //0.21
       }*/
 
+<<<<<<< HEAD
 <<<<<<< HEAD
       /* PUT THIS BACK FOR MATCH
       */
@@ -374,6 +403,12 @@ public double readCargoDegree() {
         frontLift.liftMotor.set(ControlMode.PercentOutput, oi.getXboxRightY() * 0.85 + 0.15);
       } else if (oi.getXboxRightY() < -0.2) {
         frontLift.liftMotor.set(ControlMode.PercentOutput, -0.25);
+=======
+      /*
+      if (oi.getXboxRightY() > 0.2 && liftTop.get()) {
+        frontLift.liftMotor.set(ControlMode.PercentOutput, oi.getXboxRightY() * 0.85 + 0.15);
+      } else if (oi.getXboxRightY() < -0.2) {
+        frontLift.liftMotor.set(ControlMode.PercentOutput, -0.25);
       } else {
         frontLift.liftMotor.set(ControlMode.PercentOutput, 0.15);
       }*/
@@ -386,9 +421,23 @@ public double readCargoDegree() {
         cargoIntake.spinMotor.set(ControlMode.PercentOutput, -oi.getXboxRightTrigger());
 >>>>>>> parent of b361a68... Post-Milwaukee working copy
       } else {
+        frontLift.liftMotor.set(ControlMode.PercentOutput, 0.15);
+      }*/
+
+<<<<<<< HEAD
+      //Game piecer controls
+      
+      if (oi.getXboxLeftTrigger() > 0.2) {
+        cargoIntake.spinMotor.set(ControlMode.PercentOutput, 0.5 * oi.getXboxLeftTrigger());
+      } else if (oi.getXboxRightTrigger() > 0.2) {
+        cargoIntake.spinMotor.set(ControlMode.PercentOutput, -oi.getXboxRightTrigger());
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
+      } else {
         cargoIntake.spinMotor.set(ControlMode.PercentOutput, 0);
       }
 
+=======
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
       //System.out.println(cargoIntake.deployMotor.getMotorOutputPercent());
 
       /*if (Math.abs(oi.getXboxLeftY()) > 0.2) {

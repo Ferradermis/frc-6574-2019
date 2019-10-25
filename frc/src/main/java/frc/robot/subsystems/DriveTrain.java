@@ -95,6 +95,7 @@ public class DriveTrain extends Subsystem {
   public void arcadeDrive() {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     double y = -Robot.oi.logitech.getRawAxis(1);
     double x = Robot.oi.logitech.getRawAxis(0);
 
@@ -131,6 +132,8 @@ public class DriveTrain extends Subsystem {
     }
 
     /*
+=======
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
 =======
 >>>>>>> parent of b361a68... Post-Milwaukee working copy
     double left = Robot.oi.getLogitechLeftY();
