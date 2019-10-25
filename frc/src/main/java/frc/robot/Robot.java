@@ -70,7 +70,7 @@ public double readCargoDegree() {
   @Override
   public void robotInit() {
     oi = new OI(); // import all joystick buttons
-    limelight.ledOff(); // turn the Limelight off to not blind people
+    limelight.ledOff(); // turn the lime_light off to not blind people
     camera1 = CameraServer.getInstance().startAutomaticCapture(0); // start camera feed 1
     //camera2 = CameraServer.getInstance().startAutomaticCapture(1); // start camera feed 2
     cameraServer = CameraServer.getInstance().getServer();
@@ -85,6 +85,7 @@ public double readCargoDegree() {
     cargoIntake.deployMotor.config_kI(0, 0);
     cargoIntake.deployMotor.config_kD(0, 0);
 
+<<<<<<< HEAD
     //timer.start();
 
     //Need time to test before adding
@@ -106,10 +107,26 @@ public double readCargoDegree() {
     driveTrain.backLeft.setOpenLoopRampRate(0.2);
     driveTrain.frontLeft.setOpenLoopRampRate(0.2);
     driveTrain.backRight.setOpenLoopRampRate(0.2);
+=======
+    frontLift.liftMotor.config_kF(0, 1.8); //1.8
+    frontLift.liftMotor.config_kP(0, 0.000025);
+    frontLift.liftMotor.config_kI(0, 0);
+    frontLift.liftMotor.config_kD(0, 0);
+    
+    
+    //frontLift.liftMotor.set(ControlMode.PercentOutput, 0);
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
 
     endgame = false;
 
-    cargoIntake.deployMotor.setSelectedSensorPosition(0);
+    //frontLift.liftMotor.configAllowableClosedloopError(1, 10);
+
+    //frontLift.liftMotor.configOpenloopRamp(1);
+
+    //frontLift.liftMotor.config_kP(1, 0.1);
+    //frontLift.liftMotor.config_kI(1, 0.0);
+    //frontLift.liftMotor.config_kD(1, 0.0);
+    //frontLift.liftMotor.config_kF(1, 2.1);
   }
 
   boolean prevTrigger = false;
@@ -118,9 +135,12 @@ public double readCargoDegree() {
   public double lastValueCargo = 0;
   public double lastValueWedge = 0;
 
+<<<<<<< HEAD
   public double lastCargoPosition = 0;
   public double targetLiftPosition = 0;
 
+=======
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
   public DigitalInput liftZero = new DigitalInput(0);
   public DigitalInput cargoZero = new DigitalInput(1);
   public DigitalInput climbTop = new DigitalInput(2);
@@ -142,6 +162,18 @@ public double readCargoDegree() {
 
     cargoIntake.deployMotor.config_kF(1, 1.752 * Math.cos(readCargoDegree()));
 
+    if (oi.l_aButton.get()) {
+      cargoIntake.deployMotor.set(ControlMode.Position, 0);
+    } else if (oi.l_bButton.get()) {
+      cargoIntake.deployMotor.set(ControlMode.Position, -968);
+    }
+
+    if (oi.l_xButton.get()) {
+      frontLift.liftMotor.set(ControlMode.Position, 2000);
+    } else if (oi.l_yButton.get()) {
+      frontLift.liftMotor.set(ControlMode.Position, 5000);
+    }
+
     /*if (oi.l_aButton.get()) {
       cargoIntake.deployMotor.setSelectedSensorPosition(0);
     }*/
@@ -151,13 +183,16 @@ public double readCargoDegree() {
 
     if (oi.x_startButton.get()) {
       endgame = true;
+<<<<<<< HEAD
       cargoIntake.deployMotor.set(ControlMode.Position, 0);
       //frontLift.liftMotor.set(ControlMode.PercentOutput, 0);
+=======
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
     } else if (oi.x_backButton.get()) {
       endgame = false;
     }
-    
-    if (oi.l_leftBumper.get()) {
+      
+    if (oi.l_leftBumper.get()) { // right joystick is shifting control
       driveTrain.shifter.set(DoubleSolenoid.Value.kForward);
     } else if (oi.l_rightBumper.get()) {
       driveTrain.shifter.set(DoubleSolenoid.Value.kReverse);
@@ -176,6 +211,7 @@ public double readCargoDegree() {
       cameraServer.setSource(camera2);
     }*/
 
+<<<<<<< HEAD
     if (!liftZero.get()) {
       frontLift.liftMotor.setSelectedSensorPosition(0);
     }
@@ -184,6 +220,8 @@ public double readCargoDegree() {
       cargoIntake.deployMotor.setSelectedSensorPosition(0);
       lastCargoPosition = 0;
     }
+=======
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
     
     //Encoder value printing
 
@@ -200,22 +238,35 @@ public double readCargoDegree() {
       System.out.println("Wedge: " + lastValueWedge);
     }
 
+
     /*
       ENDGAME v. MATCH OPERATOR CONTROLS
     */
     //Wedges, climber, emergency game piecer lifting
     if (endgame) {
+<<<<<<< HEAD
 
       blinkin.set(-0.91); 
 
+=======
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
       driveTrain.shifter.set(DoubleSolenoid.Value.kReverse);
+      cargoIntake.deployMotor.configOpenloopRamp(2);
+      
+      cargoIntake.deployMotor.configClosedloopRamp(2);
       
       //Wedge controls
+<<<<<<< HEAD
       if (oi.x_aButton.get()) {
         //Need to find position
         wedges.wedgeMotor.set(ControlMode.PercentOutput, 0.7); //Wedge down
       } else if (oi.x_bButton.get()) {
         //Need to find position
+=======
+      if (oi.x_xButton.get()) {
+        wedges.wedgeMotor.set(ControlMode.PercentOutput, 0.9); //Wedge down
+      } else if (oi.x_aButton.get()) {
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
         wedges.wedgeMotor.set(ControlMode.PercentOutput, -0.9); //Wedge up
       } else {
         wedges.wedgeMotor.set(ControlMode.PercentOutput, 0);
@@ -245,6 +296,7 @@ public double readCargoDegree() {
       }*/
     //Front lift, game piecer
     } else {
+<<<<<<< HEAD
 
       
       blinkin.set(-0.57); //-.91 (green/forest palette), -.67(party palette)
@@ -266,12 +318,11 @@ public double readCargoDegree() {
           cargoIntake.deployMotor.set(ControlMode.Position, lastCargoPosition);
         }
       }
+=======
+      cargoIntake.deployMotor.configOpenloopRamp(0);
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
       
-      /*if (oi.l_xButton.get()) {
-        frontLift.liftMotor.set(ControlMode.Position, 2000);
-      } else if (oi.l_yButton.get()) {
-        frontLift.liftMotor.set(ControlMode.Position, 5000);
-      }*/
+      cargoIntake.deployMotor.configClosedloopRamp(0);
       //Front lift controls
       /*if (oi.getXboxRightY() > 0.2) {
         System.out.println(oi.getXboxRightY());
@@ -282,6 +333,7 @@ public double readCargoDegree() {
         frontLift.liftMotor.set(ControlMode.PercentOutput, 0.15); //0.21
       }*/
 
+<<<<<<< HEAD
       /* PUT THIS BACK FOR MATCH
       */
       if (oi.getXboxLeftY() > 0.2 && liftTop.get()) {
@@ -316,14 +368,25 @@ public double readCargoDegree() {
         cargoIntake.spinMotor.set(ControlMode.PercentOutput, 0.5);
       } else if (Math.abs(oi.getXboxRightTrigger()) > 0.2) {
         cargoIntake.spinMotor.set(ControlMode.PercentOutput, -1);
+=======
+      /*
+      if (oi.getXboxRightY() > 0.2 && liftTop.get()) {
+        frontLift.liftMotor.set(ControlMode.PercentOutput, oi.getXboxRightY() * 0.85 + 0.15);
+      } else if (oi.getXboxRightY() < -0.2) {
+        frontLift.liftMotor.set(ControlMode.PercentOutput, -0.25);
+      } else {
+        frontLift.liftMotor.set(ControlMode.PercentOutput, 0.15);
+      }*/
+
+      //Game piecer controls
+      
+      if (oi.getXboxLeftTrigger() > 0.2) {
+        cargoIntake.spinMotor.set(ControlMode.PercentOutput, 0.5 * oi.getXboxLeftTrigger());
+      } else if (oi.getXboxRightTrigger() > 0.2) {
+        cargoIntake.spinMotor.set(ControlMode.PercentOutput, -oi.getXboxRightTrigger());
+>>>>>>> parent of b361a68... Post-Milwaukee working copy
       } else {
         cargoIntake.spinMotor.set(ControlMode.PercentOutput, 0);
-      }
-
-      if (oi.getXboxLeftBumper()) {
-        hatchIntake.extender.set(DoubleSolenoid.Value.kForward);
-      } else if (oi.getXboxRightBumper()) {
-        hatchIntake.extender.set(DoubleSolenoid.Value.kReverse);
       }
 
       //System.out.println(cargoIntake.deployMotor.getMotorOutputPercent());
@@ -391,8 +454,6 @@ public double readCargoDegree() {
     // m_autonomousCommand.start();
     // }
     frontLift.liftMotor.set(ControlMode.PercentOutput, 0);
-    frontLift.liftMotor.setSelectedSensorPosition(0);
-    cargoIntake.deployMotor.setSelectedSensorPosition(0);
   }
 
   /**
