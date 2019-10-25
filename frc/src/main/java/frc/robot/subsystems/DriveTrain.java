@@ -24,6 +24,7 @@ public class DriveTrain extends Subsystem {
   public CANSparkMax frontRight = new CANSparkMax(RobotMap.FRONT_RIGHT_CAN_ID, MotorType.kBrushless);
   public CANSparkMax backRight = new CANSparkMax(RobotMap.BACK_RIGHT_CAN_ID, MotorType.kBrushless);
   
+  
   public DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.SHIFTER_ID_BACK, RobotMap.SHIFTER_ID_FORWARD);
   
   @Override
@@ -67,20 +68,20 @@ public class DriveTrain extends Subsystem {
    */
   public void arcadeDrive() {
 
-    double rampRate = 0.2;
-    int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense
+    //double rampRate = 0.2;
+    //int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense
 
-    frontRight.setOpenLoopRampRate(rampRate);
-    frontRight.setSmartCurrentLimit(currentLimit);
+    //frontRight.setOpenLoopRampRate(rampRate);
+    //frontRight.setSmartCurrentLimit(currentLimit);
 
-    backLeft.setOpenLoopRampRate(rampRate);
-    backLeft.setSmartCurrentLimit(currentLimit);
+    //backLeft.setOpenLoopRampRate(rampRate);
+    //backLeft.setSmartCurrentLimit(currentLimit);
 
-    frontLeft.setOpenLoopRampRate(rampRate);
-    frontLeft.setSmartCurrentLimit(currentLimit);
+    //frontLeft.setOpenLoopRampRate(rampRate);
+    //frontLeft.setSmartCurrentLimit(currentLimit);
 
-    backRight.setOpenLoopRampRate(rampRate);
-    backRight.setSmartCurrentLimit(currentLimit);
+    //backRight.setOpenLoopRampRate(rampRate);
+    //backRight.setSmartCurrentLimit(currentLimit);
 
     double y = -Robot.oi.logitech.getRawAxis(1);
     double x = Robot.oi.logitech.getRawAxis(0);
@@ -128,8 +129,8 @@ public class DriveTrain extends Subsystem {
    * @param speed a double in the range of -1 to 1
    */
   public void spinLeft(double speed) {
-    frontLeft.set(-speed);
-    backLeft.set(-speed);
+  frontLeft.set(-speed);
+   backLeft.set(-speed);
   }
 
   /**

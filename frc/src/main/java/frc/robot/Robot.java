@@ -87,12 +87,15 @@ public class Robot extends TimedRobot {
     that failed routinely due to stalling or running at high current for extended periods of time
     due to either user failure or poorly managed closed loop control
     */
+
+    /*
     double totalCurrent = pdp.getTotalCurrent();
     double frontLiftCurrent = pdp.getCurrent(0);
     double wedgesCurrent = pdp.getCurrent(1);
     double cargoIntakeCurrent = pdp.getCurrent(2);
     double climbCurrent = pdp.getCurrent(3);
     double GPCurrent = pdp.getCurrent(4);
+    
 
     SmartDashboard.putNumber("Total Current", totalCurrent);    
     SmartDashboard.putNumber("Front Lift Current", frontLiftCurrent);
@@ -100,7 +103,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Cargo Intake Current", cargoIntakeCurrent);
     SmartDashboard.putNumber("Climbing Elevator Current", climbCurrent);
     SmartDashboard.putNumber("Game Piecer Current", GPCurrent);
-
+    */
     compressor.start();
     compressor.setClosedLoopControl(true);
 
