@@ -36,7 +36,7 @@ public class DriveTrain extends Subsystem {
    * itself and allowing forward and backward movement when a target
    * is identified, otherwise allow normal movement.
    */
-  public void trackVision() {
+ /* public void trackVision() {
     double margin = 5;
     if (Robot.limelight.hasTarget()) {
       double target = Robot.limelight.targetX();
@@ -58,6 +58,7 @@ public class DriveTrain extends Subsystem {
       arcadeDrive();
     }
   }
+  */
 
   /**
    * Drives the robot using the arcade drive style, where forward and
