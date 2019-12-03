@@ -44,7 +44,6 @@ public class Robot extends TimedRobot {
 
   VideoSink cameraServer;
 
-  PowerDistributionPanel pdp = new PowerDistributionPanel();
   public static OI oi;
   public static Spark blinkin = new Spark(0);
 
@@ -64,11 +63,27 @@ public class Robot extends TimedRobot {
     //camera2 = CameraServer.getInstance().startAutomaticCapture(1); // start camera feed 2
     cameraServer = CameraServer.getInstance().getServer();
     cameraServer.setSource(camera1);
+
     compressor.start(); //compressor init code
     compressor.setClosedLoopControl(true);
 
     endgame = false;
     cargoIntake.deployMotor.setSelectedSensorPosition(0);
+
+    double rampRate = 0.2;
+    int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense
+
+    driveTrain.frontRight.setOpenLoopRampRate(rampRate);
+    //driveTrain.frontRight.setSmartCurrentLimit(currentLimit);
+
+    driveTrain.backLeft.setOpenLoopRampRate(rampRate);
+    //driveTrain.backLeft.setSmartCurrentLimit(currentLimit);
+
+    driveTrain.frontLeft.setOpenLoopRampRate(rampRate);
+    //driveTrain.frontLeft.setSmartCurrentLimit(currentLimit);
+
+    driveTrain.backRight.setOpenLoopRampRate(rampRate);
+    //driveTrain.backRight.setSmartCurrentLimit(currentLimit);
   }
 
   public boolean prevTrigger = false;
@@ -79,27 +94,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    
-    /*
-    PDP CHANNELS ARE NOT ACCURATE, NUMBERS INPUT SO IT COMPILES. 
-    DOESN'T HURT ANYTHING BUT NEED TO GET THESE ON THE PROPER CHANNELS
-    We can use these to determine used current during normal operation for mechanisms
-    that failed routinely due to stalling or running at high current for extended periods of time
-    due to either user failure or poorly managed closed loop control
-    */
-    double totalCurrent = pdp.getTotalCurrent();
-    double frontLiftCurrent = pdp.getCurrent(0);
-    double wedgesCurrent = pdp.getCurrent(1);
-    double cargoIntakeCurrent = pdp.getCurrent(2);
-    double climbCurrent = pdp.getCurrent(3);
-    double GPCurrent = pdp.getCurrent(4);
-
-    SmartDashboard.putNumber("Total Current", totalCurrent);    
-    SmartDashboard.putNumber("Front Lift Current", frontLiftCurrent);
-    SmartDashboard.putNumber("Wedges Current", wedgesCurrent);
-    SmartDashboard.putNumber("Cargo Intake Current", cargoIntakeCurrent);
-    SmartDashboard.putNumber("Climbing Elevator Current", climbCurrent);
-    SmartDashboard.putNumber("Game Piecer Current", GPCurrent);
 
     compressor.start();
     compressor.setClosedLoopControl(true);

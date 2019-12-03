@@ -36,7 +36,7 @@ public class DriveTrain extends Subsystem {
    * itself and allowing forward and backward movement when a target
    * is identified, otherwise allow normal movement.
    */
- /* public void trackVision() {
+  public void trackVision() {
     double margin = 5;
     if (Robot.limelight.hasTarget()) {
       double target = Robot.limelight.targetX();
@@ -58,7 +58,7 @@ public class DriveTrain extends Subsystem {
       arcadeDrive();
     }
   }
-  */
+  
 
   /**
    * Drives the robot using the arcade drive style, where forward and
@@ -67,20 +67,7 @@ public class DriveTrain extends Subsystem {
    */
   public void arcadeDrive() {
 
-    double rampRate = 0.2;
-    int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense
-
-    frontRight.setOpenLoopRampRate(rampRate);
-    frontRight.setSmartCurrentLimit(currentLimit);
-
-    backLeft.setOpenLoopRampRate(rampRate);
-    backLeft.setSmartCurrentLimit(currentLimit);
-
-    frontLeft.setOpenLoopRampRate(rampRate);
-    frontLeft.setSmartCurrentLimit(currentLimit);
-
-    backRight.setOpenLoopRampRate(rampRate);
-    backRight.setSmartCurrentLimit(currentLimit);
+   
 
     double y = -Robot.oi.logitech.getRawAxis(1);
     double x = Robot.oi.logitech.getRawAxis(0);
