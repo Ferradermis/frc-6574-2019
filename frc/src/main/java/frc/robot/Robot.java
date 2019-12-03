@@ -44,7 +44,6 @@ public class Robot extends TimedRobot {
 
   VideoSink cameraServer;
 
-  PowerDistributionPanel pdp = new PowerDistributionPanel();
   public static OI oi;
   public static Spark blinkin = new Spark(0);
 
@@ -64,11 +63,27 @@ public class Robot extends TimedRobot {
     //camera2 = CameraServer.getInstance().startAutomaticCapture(1); // start camera feed 2
     cameraServer = CameraServer.getInstance().getServer();
     cameraServer.setSource(camera1);
+
     compressor.start(); //compressor init code
     compressor.setClosedLoopControl(true);
 
     endgame = false;
     cargoIntake.deployMotor.setSelectedSensorPosition(0);
+
+    double rampRate = 0.2;
+    int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense
+
+    driveTrain.frontRight.setOpenLoopRampRate(rampRate);
+    //driveTrain.frontRight.setSmartCurrentLimit(currentLimit);
+
+    driveTrain.backLeft.setOpenLoopRampRate(rampRate);
+    //driveTrain.backLeft.setSmartCurrentLimit(currentLimit);
+
+    driveTrain.frontLeft.setOpenLoopRampRate(rampRate);
+    //driveTrain.frontLeft.setSmartCurrentLimit(currentLimit);
+
+    driveTrain.backRight.setOpenLoopRampRate(rampRate);
+    //driveTrain.backRight.setSmartCurrentLimit(currentLimit);
   }
 
   public boolean prevTrigger = false;
@@ -79,6 +94,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+<<<<<<< HEAD
     
     /*
     PDP CHANNELS ARE NOT ACCURATE, NUMBERS INPUT SO IT COMPILES. 
@@ -104,6 +120,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Climbing Elevator Current", climbCurrent);
     SmartDashboard.putNumber("Game Piecer Current", GPCurrent);
     */
+=======
+
+>>>>>>> b07dd05e8db2c57eeca9db6f4179d2af116ff159
     compressor.start();
     compressor.setClosedLoopControl(true);
 
