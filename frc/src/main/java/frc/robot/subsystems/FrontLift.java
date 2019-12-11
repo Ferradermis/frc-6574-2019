@@ -9,42 +9,57 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.ElevatorControl;
+import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.*;
 
 /**
  * Add your docs here.
  */
 public class FrontLift extends Subsystem {
+  public DigitalInput liftZeroLimit = new DigitalInput(0);
+  public DigitalInput liftTopLimit = new DigitalInput(3);
 
-  /**
-   * Possible positions the lift can take.
-   */
-  public static final double LOW = 0;
-  public static final double MID = 0;
-  public static final double HIGH = 0;
+  
 
   public TalonSRX liftMotor = new TalonSRX(RobotMap.FRONT_LIFT_CAN_ID);
   
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ElevatorControl());
   }
 
-  /**
+
+  public void controlElevator() {
+    if (Robot.oi.getOperatorLeftY() > 0.2 && liftTopLimit.get()) {
+      liftMotor.set(ControlMode.PercentOutput, Robot.oi.getOperatorLeftY() * 0.85 + 0.15);
+    } else if (Robot.oi.getOperatorLeftY() < -0.2 && liftZeroLimit.get()) {
+    
+      liftMotor.set(ControlMode.PercentOutput, Robot.oi.getOperatorLeftY() * 0.5);
+    } else {
+      liftMotor.set(ControlMode.PercentOutput, 0.15);
+    }
+  
+    if (!liftZeroLimit.get()) {
+      liftMotor.setSelectedSensorPosition(0);
+    }
+  }
+
+/**
    * Sets the position of the front lift mechanism.
    * 
    * @param newPosition a position value indicating intended position
    */
+
   public void setPosition(double newPosition) {
     liftMotor.set(ControlMode.Position, newPosition);
   }
 
-  public void set(double speed) {
-    liftMotor.set(ControlMode.PercentOutput, speed);
-  }
+  //public void set(double speed) {
+    //liftMotor.set(ControlMode.PercentOutput, speed);
+  //}
 
   public double getPosition() {
     //return 0;
@@ -52,3 +67,17 @@ public class FrontLift extends Subsystem {
   }
 
 }
+
+//Need time to test before adding
+    
+
+    //frontLift.liftMotor.config_kF(0, 0.25); //1.8
+    
+    //frontLift.liftMotor.config_kF(0, 0);
+    //frontLift.liftMotor.config_kP(0, 3);
+    //frontLift.liftMotor.config_kI(0, 0);
+    //frontLift.liftMotor.config_kD(0, 0);
+
+    //frontLift.liftMotor.configAllowableClosedloopError(0, 25);
+
+    //frontLift.liftMotor.setSelectedSensorPosition(0);

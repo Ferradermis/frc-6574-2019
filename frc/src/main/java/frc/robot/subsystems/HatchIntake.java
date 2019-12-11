@@ -8,6 +8,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Robot;
+import frc.robot.commands.ManipulateHatch;
+
 
 /**
  * The extending mechanism used to collect hatch panels.
@@ -17,10 +20,16 @@ public class HatchIntake extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ManipulateHatch());
   }
 
+  public void hatchInOut() {
+    if (Robot.oi.getOperatorLeftBumper()) {
+      extender.set(DoubleSolenoid.Value.kForward);
+    } else if (Robot.oi.getOperatorRightBumper()) {
+      extender.set(DoubleSolenoid.Value.kReverse);
+    }
+  }
   public void extend() {
     //extender.set(true);
   }

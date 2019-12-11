@@ -10,23 +10,65 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.commands.ClimbPickControl;
 
 /**
  * The wedge subsystem used for climbing positioning.
  */
+
 public class Wedges extends Subsystem {
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
 
   public static final double MAX_ROTATE = 0;
   public TalonSRX wedgeMotor = new TalonSRX(RobotMap.WEDGE_MOTOR_CAN_ID);
+  public DigitalInput climbTopLimit = new DigitalInput(2);
+  public boolean endgame = false;
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ClimbPickControl());
+  }
+
+  public void WedgeControl() {
+    if (Robot.getEndgame()) {
+      Robot.driveTrain.shifter.set(DoubleSolenoid.Value.kReverse);
+      
+      //Wedge controls
+      if (Robot.oi.x_aButton.get()) {
+        wedgeMotor.set(ControlMode.PercentOutput, 0.7); //Wedges down
+      } 
+      else if (Robot.oi.x_bButton.get()) {
+        wedgeMotor.set(ControlMode.PercentOutput, -0.4); //Wedges up
+      } 
+      else {
+        wedgeMotor.set(ControlMode.PercentOutput, 0);
+      }
+
+      //Climber controls
+      if (Robot.oi.getOperatorRightTrigger() > 0.2) {
+        Robot.climber.wheel.set(ControlMode.PercentOutput, -0.8);
+      } else {
+        Robot.climber.wheel.set(ControlMode.PercentOutput, 0);
+      }
+
+      if (Robot.oi.getOperatorLeftY() > 0.2 && climbTopLimit.get()) {
+        Robot.climber.extender.set(ControlMode.PercentOutput, -Robot.oi.getOperatorLeftY());
+      } 
+      else if (Robot.oi.getOperatorLeftY() < -0.2) {
+
+        Robot.climber.extender.set(ControlMode.PercentOutput, -Robot.oi.getOperatorLeftY());
+      } 
+      else {
+        Robot.climber.extender.set(ControlMode.PercentOutput, 0);
+      }
+    }
+    else {
+      Robot.blinkin.set(-0.57); //-.91 (green/forest palette), -.67(party palette)
+    }
   }
 
   /**

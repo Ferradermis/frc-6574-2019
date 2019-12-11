@@ -8,12 +8,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
 import frc.robot.Robot;
 
-public class ArcadeDrive extends Command {
-  public ArcadeDrive() {
-    requires(Robot.driveTrain);
+public class ElevatorControl extends Command {
+  public ElevatorControl() {
+    requires(Robot.frontLift);
   }
 
   // Called just before this Command runs the first time
@@ -24,12 +23,7 @@ public class ArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double y = -Robot.oi.driver.getRawAxis(1);
-    double x = Robot.oi.driver.getRawAxis(0);
- 
-    y = Math.pow(y, 3);
-    x = 0.5 * Math.pow(x, 3);
-    Robot.driveTrain.arcadeDrive(y, x);
+    Robot.frontLift.controlElevator();
   }
 
   // Make this return true when this Command no longer needs to run execute()
