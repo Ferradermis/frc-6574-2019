@@ -24,9 +24,9 @@ public class HatchIntake extends Subsystem {
   }
 
   public void hatchInOut() {
-    if (Robot.oi.getXboxLeftBumper()) {
+    if (Robot.oi.getOperatorLeftBumper()) {
       extender.set(DoubleSolenoid.Value.kForward);
-    } else if (Robot.oi.getXboxRightBumper()) {
+    } else if (Robot.oi.getOperatorRightBumper()) {
       extender.set(DoubleSolenoid.Value.kReverse);
     }
   }

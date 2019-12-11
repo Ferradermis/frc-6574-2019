@@ -56,65 +56,54 @@ public class DriveTrain extends Subsystem {
         //}
       }
     } else {
-      arcadeDrive();
+      //arcadeDrive();
     }
   }
   
-
   /**
    * Drives the robot using the arcade drive style, where forward and
    * backward movement is controlled by the Y axis of the joystick
    * and rotation is controlled by the X axis.
    */
-  public void arcadeDrive() {
+  public void arcadeDrive(double drive, double steer) {
 
-<<<<<<< HEAD
-    //double rampRate = 0.2;
-    //int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense
+    double rampRate = 0.2; //time in seconds to go from 0 to full throttle; 0.2 is selected on feel by drivers for 2019
+    int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense programmatically. 
 
-    //frontRight.setOpenLoopRampRate(rampRate);
-    //frontRight.setSmartCurrentLimit(currentLimit);
+    frontRight.setOpenLoopRampRate(rampRate);
+    frontRight.setSmartCurrentLimit(currentLimit);
 
-    //backLeft.setOpenLoopRampRate(rampRate);
-    //backLeft.setSmartCurrentLimit(currentLimit);
+    backLeft.setOpenLoopRampRate(rampRate);
+    backLeft.setSmartCurrentLimit(currentLimit);
 
-    //frontLeft.setOpenLoopRampRate(rampRate);
-    //frontLeft.setSmartCurrentLimit(currentLimit);
+    frontLeft.setOpenLoopRampRate(rampRate);
+    frontLeft.setSmartCurrentLimit(currentLimit);
 
-    //backRight.setOpenLoopRampRate(rampRate);
-    //backRight.setSmartCurrentLimit(currentLimit);
-=======
-   
->>>>>>> b07dd05e8db2c57eeca9db6f4179d2af116ff159
+    backRight.setOpenLoopRampRate(rampRate);
+    backRight.setSmartCurrentLimit(currentLimit);
 
-    double y = -Robot.oi.logitech.getRawAxis(1);
-    double x = Robot.oi.logitech.getRawAxis(0);
- 
-    y = Math.pow(y, 3);
-    x = 0.5 * Math.pow(x, 3);
+    double leftDriveTrain = drive + steer;
+    double rightDriveTrain = drive - steer;
 
-    double left = y + x;
-    double right = y - x;
-
-    if (left > 1) {
-      left = 1;
-    } else if (left < -1) {
-      left = -1;
+    if (leftDriveTrain > 1) {
+      leftDriveTrain = 1;
+    } else if (leftDriveTrain < -1) {
+      leftDriveTrain = -1;
     }
 
-    if (right > 1) {
-      right = 1;
-    } else if (right < -1) {
-      right = -1;
+    if (rightDriveTrain  > 1) {
+      rightDriveTrain = 1;
+    } else if (rightDriveTrain < -1) {
+      rightDriveTrain = -1;
     }
 
-    if (Math.abs(x) > 0.1 || Math.abs(y) > 0.1) {
+    if (Math.abs(steer) > 0.1 || Math.abs(drive) > 0.1) {
       if (Robot.oi.getLogitechLeftTrigger() > 0.1) {
-        spinLeft(left * 0.5);
-        spinRight(right * 0.5);
+        spinLeft(leftDriveTrain * 0.5);
+        spinRight(rightDriveTrain * 0.5);
       } else {
-        spinLeft(left);
-        spinRight(right);
+        spinLeft(leftDriveTrain);
+        spinRight(rightDriveTrain);
       }
     } else {
       stopLeft();
@@ -122,9 +111,9 @@ public class DriveTrain extends Subsystem {
       }
       
       if (Robot.oi.l_leftBumper.get()) {
-        shifter.set(DoubleSolenoid.Value.kForward); //WRITE WHICH GEAR THIS IS
+        shifter.set(DoubleSolenoid.Value.kForward); //low torque high speed, low acceleration
       } else if (Robot.oi.l_rightBumper.get()) {
-        shifter.set(DoubleSolenoid.Value.kReverse); //WRITE WHICH GEAR THIS IS
+        shifter.set(DoubleSolenoid.Value.kReverse); //low speed high torque, high acceleration 
       }
     }
 

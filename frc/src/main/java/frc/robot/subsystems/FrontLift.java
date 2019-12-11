@@ -33,11 +33,11 @@ public class FrontLift extends Subsystem {
 
 
   public void controlElevator() {
-    if (Robot.oi.getXboxLeftY() > 0.2 && liftTopLimit.get()) {
-      liftMotor.set(ControlMode.PercentOutput, Robot.oi.getXboxLeftY() * 0.85 + 0.15);
-    } else if (Robot.oi.getXboxLeftY() < -0.2 && liftZeroLimit.get()) {
+    if (Robot.oi.getOperatorLeftY() > 0.2 && liftTopLimit.get()) {
+      liftMotor.set(ControlMode.PercentOutput, Robot.oi.getOperatorLeftY() * 0.85 + 0.15);
+    } else if (Robot.oi.getOperatorLeftY() < -0.2 && liftZeroLimit.get()) {
     
-      liftMotor.set(ControlMode.PercentOutput, Robot.oi.getXboxLeftY() * 0.5);
+      liftMotor.set(ControlMode.PercentOutput, Robot.oi.getOperatorLeftY() * 0.5);
     } else {
       liftMotor.set(ControlMode.PercentOutput, 0.15);
     }

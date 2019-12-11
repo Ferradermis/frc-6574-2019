@@ -49,18 +49,18 @@ public class Wedges extends Subsystem {
       }
 
       //Climber controls
-      if (Robot.oi.getXboxRightTrigger() > 0.2) {
+      if (Robot.oi.getOperatorRightTrigger() > 0.2) {
         Robot.climber.wheel.set(ControlMode.PercentOutput, -0.8);
       } else {
         Robot.climber.wheel.set(ControlMode.PercentOutput, 0);
       }
 
-      if (Robot.oi.getXboxLeftY() > 0.2 && climbTopLimit.get()) {
-        Robot.climber.extender.set(ControlMode.PercentOutput, -Robot.oi.getXboxLeftY());
+      if (Robot.oi.getOperatorLeftY() > 0.2 && climbTopLimit.get()) {
+        Robot.climber.extender.set(ControlMode.PercentOutput, -Robot.oi.getOperatorLeftY());
       } 
-      else if (Robot.oi.getXboxLeftY() < -0.2) {
+      else if (Robot.oi.getOperatorLeftY() < -0.2) {
 
-        Robot.climber.extender.set(ControlMode.PercentOutput, -Robot.oi.getXboxLeftY());
+        Robot.climber.extender.set(ControlMode.PercentOutput, -Robot.oi.getOperatorLeftY());
       } 
       else {
         Robot.climber.extender.set(ControlMode.PercentOutput, 0);

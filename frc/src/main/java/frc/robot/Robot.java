@@ -5,6 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+/*
+before anyone really digs in deep into this code, just know that Zach and I 
+had next to no time to do stuff in season as a result there's some wild stuff 
+in here, including my personal favorite: 
+cargoIntake.deployMotor.configMotionCruiseVelocity(51 * 2 * 2 * 3 * 2 * 2);
+*/
+
 package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -38,9 +45,9 @@ public class Robot extends TimedRobot {
   public static Limelight limelight = new Limelight();
   public static Compressor compressor = new Compressor();
   public static boolean  endgame = false;
+  public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   UsbCamera camera1;
-  //UsbCamera camera2;
 
   VideoSink cameraServer;
 
@@ -54,7 +61,7 @@ public class Robot extends TimedRobot {
   public static boolean getEndgame() {
     return endgame;
   }
-
+  //WITH ROBOT AVAILABLE TO TEST, TAKE OUT COMPRESSOR CODE FROM EITHER INIT OF PERIODIC
   @Override
   public void robotInit() {
     oi = new OI(); // import all joystick buttons
@@ -70,32 +77,6 @@ public class Robot extends TimedRobot {
     endgame = false;
     cargoIntake.deployMotor.setSelectedSensorPosition(0);
 
-    double rampRate = 0.2;
-    int currentLimit = 30; //int because .setSmartCurrentLimit takes only ints, not doubles. Which makes sense
-
-    driveTrain.frontRight.setOpenLoopRampRate(rampRate);
-    //driveTrain.frontRight.setSmartCurrentLimit(currentLimit);
-
-    driveTrain.backLeft.setOpenLoopRampRate(rampRate);
-    //driveTrain.backLeft.setSmartCurrentLimit(currentLimit);
-
-    driveTrain.frontLeft.setOpenLoopRampRate(rampRate);
-    //driveTrain.frontLeft.setSmartCurrentLimit(currentLimit);
-
-    driveTrain.backRight.setOpenLoopRampRate(rampRate);
-    //driveTrain.backRight.setSmartCurrentLimit(currentLimit);
-  }
-
-  public boolean prevTrigger = false;
-
-  public double lastValueLift = 0;
-  public double lastValueCargo = 0;
-  public double lastValueWedge = 0;
-
-  @Override
-  public void robotPeriodic() {
-<<<<<<< HEAD
-    
     /*
     PDP CHANNELS ARE NOT ACCURATE, NUMBERS INPUT SO IT COMPILES. 
     DOESN'T HURT ANYTHING BUT NEED TO GET THESE ON THE PROPER CHANNELS
@@ -104,7 +85,6 @@ public class Robot extends TimedRobot {
     due to either user failure or poorly managed closed loop control
     */
 
-    /*
     double totalCurrent = pdp.getTotalCurrent();
     double frontLiftCurrent = pdp.getCurrent(0);
     double wedgesCurrent = pdp.getCurrent(1);
@@ -119,18 +99,29 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Cargo Intake Current", cargoIntakeCurrent);
     SmartDashboard.putNumber("Climbing Elevator Current", climbCurrent);
     SmartDashboard.putNumber("Game Piecer Current", GPCurrent);
-    */
-=======
+  }
 
->>>>>>> b07dd05e8db2c57eeca9db6f4179d2af116ff159
+  public boolean prevTrigger = false;
+
+  public double lastValueLift = 0;
+  public double lastValueCargo = 0;
+  public double lastValueWedge = 0;
+
+  @Override
+  public void robotPeriodic() {
+    
+
+
+
+    
     compressor.start();
     compressor.setClosedLoopControl(true);
 
-    //It pains me, but for now it seems most efficient to keep this chunk here. 
+    //It pains me, but for now it seems most efficient to keep this chunk here. - Dilpreet
     if (Robot.oi.x_startButton.get()) {
       endgame = true;
+      Robot.blinkin.set(-0.41);
       Robot.cargoIntake.deployMotor.set(ControlMode.Position, 0);
-      //frontLift.liftMotor.set(ControlMode.PercentOutput, 0);
     } else if (Robot.oi.x_backButton.get()) {
       endgame = false;
       Robot.blinkin.set(-0.57);
@@ -160,6 +151,7 @@ public class Robot extends TimedRobot {
     endgame = false;
     //cargoIntake.deployMotor.setSelectedSensorPosition(0);
     //hoping this just resets the game piecer to position zero upon disabling the robot instead of it drooping sadly
+    //update: it didn't
   }
 
   @Override

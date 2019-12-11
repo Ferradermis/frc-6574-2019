@@ -24,7 +24,12 @@ public class ArcadeDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.arcadeDrive();
+    double y = -Robot.oi.driver.getRawAxis(1);
+    double x = Robot.oi.driver.getRawAxis(0);
+ 
+    y = Math.pow(y, 3);
+    x = 0.5 * Math.pow(x, 3);
+    Robot.driveTrain.arcadeDrive(y, x);
   }
 
   // Make this return true when this Command no longer needs to run execute()

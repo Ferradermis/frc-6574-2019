@@ -33,7 +33,7 @@ public class Functions {
      * @return      val if greater than 0.2 or less than -0.2, otherwise 0
      */
     public static double deadband(double val) {//made public to steal for testInit - Allison
-        return val = (val < -0.2 ? val : (val > 0.2 ? val : (val = 0)));
+        return val = (val < -0.2 ? val : (val > 0.2 ? val : (val = 0))); 
     }
 
 }

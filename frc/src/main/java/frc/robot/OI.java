@@ -27,111 +27,111 @@ public class OI {
   public CANSparkMax frontRight = new CANSparkMax(RobotMap.FRONT_RIGHT_CAN_ID, MotorType.kBrushless);
   public CANSparkMax backRight = new CANSparkMax(RobotMap.BACK_RIGHT_CAN_ID, MotorType.kBrushless);
 
-  public Joystick logitech = new Joystick(0);
-  public Joystick xbox = new Joystick(1);
+  public Joystick driver = new Joystick(0);
+  public Joystick operator = new Joystick(1);
 
   // Logitech Variables
-  public Button l_xButton = new JoystickButton(logitech, 3);
-  public Button l_aButton = new JoystickButton(logitech, 1);
-  public Button l_bButton = new JoystickButton(logitech, 2);
-  public Button l_yButton = new JoystickButton(logitech, 4);
-  public Button l_leftBumper = new JoystickButton(logitech, 5);
-  public Button l_rightBumper = new JoystickButton(logitech, 6);
-  //public Button l_leftTrigger = new JoystickButton(logitech, 7);
-  public Button l_backButton = new JoystickButton(logitech, 7);
-  //public Button l_startButton = new JoystickButton(logitech, 8);
-  //public Button l_rightTrigger = new JoystickButton(logitech, 8);
-  //public Button l_backButton = new JoystickButton(logitech, 9);
-  //public Button l_startButton = new JoystickButton(logitech, 10);
-  public POVButton l_upDpad = new POVButton(logitech, 0);
-  public POVButton l_rightDpad = new POVButton(logitech, 90);
-  public POVButton l_downDpad = new POVButton(logitech, 180);
-  public POVButton l_leftDpad = new POVButton(logitech, 270);
+  public Button l_xButton = new JoystickButton(driver, 3);
+  public Button l_aButton = new JoystickButton(driver, 1);
+  public Button l_bButton = new JoystickButton(driver, 2);
+  public Button l_yButton = new JoystickButton(driver, 4);
+  public Button l_leftBumper = new JoystickButton(driver, 5);
+  public Button l_rightBumper = new JoystickButton(driver, 6);
+  //public Button l_leftTrigger = new JoystickButton(driver, 7);
+  public Button l_backButton = new JoystickButton(driver, 7);
+  //public Button l_startButton = new JoystickButton(driver, 8);
+  //public Button l_rightTrigger = new JoystickButton(driver, 8);
+  //public Button l_backButton = new JoystickButton(driver, 9);
+  //public Button l_startButton = new JoystickButton(driver, 10);
+  public POVButton l_upDpad = new POVButton(driver, 0);
+  public POVButton l_rightDpad = new POVButton(driver, 90);
+  public POVButton l_downDpad = new POVButton(driver, 180);
+  public POVButton l_leftDpad = new POVButton(driver, 270);
 
   public double getLogitechLeftX() {
-    return -logitech.getRawAxis(0);
+    return -driver.getRawAxis(0);
   }
 
   public double getLogitechLeftY() {
-    return -logitech.getRawAxis(1);
+    return -driver.getRawAxis(1);
   }
 
   public double getLogitechRightX() {
-    return -logitech.getRawAxis(2);
+    return -driver.getRawAxis(2);
   }
 
   public double getLogitechRightY() {
-    return -logitech.getRawAxis(5);
+    return -driver.getRawAxis(5);
   }
 
   public double getLogitechLeftTrigger() {
-    return logitech.getRawAxis(2);
+    return driver.getRawAxis(2);
   }
 
   public double getLogitechRightTrigger() {
-    return logitech.getRawAxis(3);
+    return driver.getRawAxis(3);
   }
 
   public boolean getLogitechLeftBumper() {
-    return xbox.getRawButton(5);
+    return operator.getRawButton(5);
   }
 
   public boolean getLogitechRightBumper() {
-    return xbox.getRawButton(6);
+    return operator.getRawButton(6);
   }
 
-  // Xbox Variables
-  public Button x_xButton = new JoystickButton(xbox, 3);
-  public Button x_aButton = new JoystickButton(xbox, 1);
-  public Button x_bButton = new JoystickButton(xbox, 2);
-  public Button x_yButton = new JoystickButton(xbox, 4);
-  public Button x_leftBumper = new JoystickButton(xbox, 5);
-  public Button x_rightBumper = new JoystickButton(xbox, 6);
-  public Button x_backButton = new JoystickButton(xbox, 7);
-  public Button x_startButton = new JoystickButton(xbox, 8);
-  //public Button x_leftTrigger = new JoystickButton(xbox, 7);
-  //public Button x_rightTrigger = new JoystickButton(xbox, 8);
-  //public Button x_backButton = new JoystickButton(xbox, 9);
-  //public Button x_startButton = new JoystickButton(xbox, 10);
-  public POVButton x_upDpad = new POVButton(xbox, 0);
-  public POVButton x_rightDpad = new POVButton(xbox, 90);
-  public POVButton x_downDpad = new POVButton(xbox, 180);
-  public POVButton x_leftDpad = new POVButton(xbox, 270);
+  // operator Variables
+  public Button x_xButton = new JoystickButton(operator, 3);
+  public Button x_aButton = new JoystickButton(operator, 1);
+  public Button x_bButton = new JoystickButton(operator, 2);
+  public Button x_yButton = new JoystickButton(operator, 4);
+  public Button x_leftBumper = new JoystickButton(operator, 5);
+  public Button x_rightBumper = new JoystickButton(operator, 6);
+  public Button x_backButton = new JoystickButton(operator, 7);
+  public Button x_startButton = new JoystickButton(operator, 8);
+  //public Button x_leftTrigger = new JoystickButton(operator, 7);
+  //public Button x_rightTrigger = new JoystickButton(operator, 8);
+  //public Button x_backButton = new JoystickButton(operator, 9);
+  //public Button x_startButton = new JoystickButton(operator, 10);
+  public POVButton x_upDpad = new POVButton(operator, 0);
+  public POVButton x_rightDpad = new POVButton(operator, 90);
+  public POVButton x_downDpad = new POVButton(operator, 180);
+  public POVButton x_leftDpad = new POVButton(operator, 270);
 
-  public double getXboxLeftX() {
-    return -xbox.getRawAxis(0);
+  public double getOperatorLeftX() {
+    return -operator.getRawAxis(0);
   }
 
-  public double getXboxLeftY() {
-    return -xbox.getRawAxis(1);
+  public double getOperatorLeftY() {
+    return -operator.getRawAxis(1);
   }
 
-  public double getXboxRightX() {
-    return -xbox.getRawAxis(2);
+  public double getOperatorRightX() {
+    return -operator.getRawAxis(2);
   }
 
-  public double getXboxRightY() {
-    return -xbox.getRawAxis(5);
+  public double getOperatorRightY() {
+    return -operator.getRawAxis(5);
   }
 
-  public double getXboxLeftTrigger() {
-    return xbox.getRawAxis(2);
+  public double getOperatorLeftTrigger() {
+    return operator.getRawAxis(2);
   }
 
-  public double getXboxRightTrigger() {
-    return xbox.getRawAxis(3);
+  public double getOperatorRightTrigger() {
+    return operator.getRawAxis(3);
   }
 
-  public boolean getXboxLeftBumper() {
-    return xbox.getRawButton(5);
+  public boolean getOperatorLeftBumper() {
+    return operator.getRawButton(5);
   }
 
-  public boolean getXboxRightBumper() {
-    return xbox.getRawButton(6);
+  public boolean getOperatorRightBumper() {
+    return operator.getRawButton(6);
   }
 
   public OI() {
-    l_xButton.whileHeld(new VisionTrack());
+    //l_yButton.whileHeld(new VisionTrack());
     //leftStickButton3.whenPressed(new Shift());
   }
 

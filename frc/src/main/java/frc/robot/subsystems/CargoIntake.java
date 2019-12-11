@@ -45,9 +45,9 @@ public class CargoIntake extends Subsystem {
   //deployMotor.config_kI(0, 0);
   //deployMotor.config_kD(0, 0);
 
-  if (Math.abs(Robot.oi.getXboxRightY()) > 0.2) {
+  if (Math.abs(Robot.oi.getOperatorRightY()) > 0.2) {
     //lastCargoPosition = cargoIntake.deployMotor.getSelectedSensorPosition();
-    deployMotor.set(ControlMode.PercentOutput, Robot.oi.getXboxRightY());
+    deployMotor.set(ControlMode.PercentOutput, Robot.oi.getOperatorRightY());
   } else {
     if (Robot.oi.x_bButton.get()) {
       deployMotor.set(ControlMode.Position, 0);
@@ -71,13 +71,13 @@ public class CargoIntake extends Subsystem {
 
 
  public void cargoInOut() {
-  if (Math.abs(Robot.oi.getXboxLeftTrigger()) > 0.2) {
+  if (Math.abs(Robot.oi.getOperatorLeftTrigger()) > 0.2) {
     spinMotor.set(ControlMode.PercentOutput, 0.5);
   } 
   else if (Robot.oi.l_aButton.get()) {
     spinMotor.set(ControlMode.PercentOutput, 0.5);
   }
-  else if (Math.abs(Robot.oi.getXboxRightTrigger()) > 0.2) {
+  else if (Math.abs(Robot.oi.getOperatorRightTrigger()) > 0.2) {
     spinMotor.set(ControlMode.PercentOutput, -1);
   } 
   else {
