@@ -7,16 +7,20 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.commands.ManipulateHatch;
 
+//Something is off here, pretty sure we either don't need the extend() and retract() methods or should rework hatchInOut()
 
 /**
  * The extending mechanism used to collect hatch panels.
  */
 public class HatchIntake extends Subsystem {
-  //Solenoid extender = new Solenoid(RobotMap.HATCH_EXTENDER_ID);
+  Solenoid extender = new Solenoid(RobotMap.HATCH_EXTENDER_ID);
 
   @Override
   public void initDefaultCommand() {
@@ -25,17 +29,17 @@ public class HatchIntake extends Subsystem {
 
   public void hatchInOut() {
     if (Robot.oi.getOperatorLeftBumper()) {
-      extender.set(DoubleSolenoid.Value.kForward);
+      extender.set(true);
     } else if (Robot.oi.getOperatorRightBumper()) {
-      extender.set(DoubleSolenoid.Value.kReverse);
+      extender.set(false);
     }
   }
   public void extend() {
-    //extender.set(true);
+    extender.set(true);
   }
 
   public void retract() {
-    //extender.set(false);
+    extender.set(false);
   }
 
 }
