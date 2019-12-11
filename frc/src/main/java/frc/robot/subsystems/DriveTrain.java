@@ -73,6 +73,7 @@ public class DriveTrain extends Subsystem {
     frontRight.setOpenLoopRampRate(rampRate);
     frontRight.setSmartCurrentLimit(currentLimit);
 
+
     backLeft.setOpenLoopRampRate(rampRate);
     backLeft.setSmartCurrentLimit(currentLimit);
 
@@ -114,6 +115,7 @@ public class DriveTrain extends Subsystem {
         shifter.set(DoubleSolenoid.Value.kForward); //low torque high speed, low acceleration
       } else if (Robot.oi.l_rightBumper.get()) {
         shifter.set(DoubleSolenoid.Value.kReverse); //low speed high torque, high acceleration 
+
       }
     }
 

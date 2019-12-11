@@ -65,7 +65,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     oi = new OI(); // import all joystick buttons
-    limelight.ledOff(); // turn the Limelight off to not blind people
+    limelight.ledOff(); // turn the lime_light off to not blind people
     camera1 = CameraServer.getInstance().startAutomaticCapture(0); // start camera feed 1
     //camera2 = CameraServer.getInstance().startAutomaticCapture(1); // start camera feed 2
     cameraServer = CameraServer.getInstance().getServer();
@@ -110,10 +110,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     
-
-
-
-    
     compressor.start();
     compressor.setClosedLoopControl(true);
 
@@ -142,7 +138,7 @@ public class Robot extends TimedRobot {
     }      
       
       
-    }
+  }
 
   @Override
   public void disabledInit() {
@@ -162,8 +158,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     frontLift.liftMotor.set(ControlMode.PercentOutput, 0);
-    frontLift.liftMotor.setSelectedSensorPosition(0);
-    cargoIntake.deployMotor.setSelectedSensorPosition(0);
   }
 
   @Override

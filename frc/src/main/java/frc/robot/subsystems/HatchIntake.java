@@ -7,16 +7,16 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
 import frc.robot.commands.ManipulateHatch;
+
 
 /**
  * The extending mechanism used to collect hatch panels.
  */
 public class HatchIntake extends Subsystem {
-  public DoubleSolenoid extender = new DoubleSolenoid(2, 3);
+  //Solenoid extender = new Solenoid(RobotMap.HATCH_EXTENDER_ID);
 
   @Override
   public void initDefaultCommand() {
