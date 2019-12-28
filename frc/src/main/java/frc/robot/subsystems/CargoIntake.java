@@ -41,7 +41,7 @@ public class CargoIntake extends Subsystem {
   deployMotor.config_kF(1, 1.752 * Math.cos(readCargoDegree()));
   deployMotor.config_kP(0, 2.5);
   //deployMotor.config_kI(0, 0);
-  //deployMotor.config_kD(0, 0);
+  deployMotor.config_kD(0, 27);
 
   if (Math.abs(Robot.oi.getOperatorRightY()) > 0.2) {
     //lastCargoPosition = cargoIntake.deployMotor.getSelectedSensorPosition();

@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.CargoIntake;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.DriveTrain;
@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
     PDP CHANNELS ARE NOT ACCURATE, NUMBERS INPUT SO IT COMPILES. 
     DOESN'T HURT ANYTHING BUT NEED TO GET THESE ON THE PROPER CHANNELS
     We can use these to determine used current during normal operation for mechanisms
-    that failed routinely due to stalling or running at high current for extended periods of time
+    that failed routinely due to stalling or running at high current for extended periods of timed
     due to either user failure or poorly managed closed loop control
     */
 
@@ -92,13 +92,14 @@ public class Robot extends TimedRobot {
     double climbCurrent = pdp.getCurrent(3);
     double GPCurrent = pdp.getCurrent(4);
     
-
+/*
     SmartDashboard.putNumber("Total Current", totalCurrent);    
     SmartDashboard.putNumber("Front Lift Current", frontLiftCurrent);
     SmartDashboard.putNumber("Wedges Current", wedgesCurrent);
     SmartDashboard.putNumber("Cargo Intake Current", cargoIntakeCurrent);
     SmartDashboard.putNumber("Climbing Elevator Current", climbCurrent);
     SmartDashboard.putNumber("Game Piecer Current", GPCurrent);
+    */
   }
 
   public boolean prevTrigger = false;

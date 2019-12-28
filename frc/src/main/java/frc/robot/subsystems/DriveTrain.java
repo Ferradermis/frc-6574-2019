@@ -98,7 +98,7 @@ public class DriveTrain extends Subsystem {
       rightDriveTrain = -1;
     }
 
-    if (Math.abs(steer) > 0.1 || Math.abs(drive) > 0.1) {
+    if (Math.abs(steer) > 0.05 || Math.abs(drive) > 0.05) {
       if (Robot.oi.getLogitechLeftTrigger() > 0.1) {
         spinLeft(leftDriveTrain * 0.5);
         spinRight(rightDriveTrain * 0.5);

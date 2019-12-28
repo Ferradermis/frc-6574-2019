@@ -32,10 +32,10 @@ public class VisionTrack extends Command {
     tracking = true;
     Robot.limelight.ledOn();
     //Robot.driveTrain.trackVision();
-    final double STEER_K = 0.1;
-    final double DRIVE_K = 0.15;
+    final double STEER_K = 0.004;
+    final double DRIVE_K = 0.1;
     final double DESIRED_TARGET_AREA = 13.0;
-    final double MAX_DRIVE = 0.4;
+    final double MAX_DRIVE = 0.25;
 
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);

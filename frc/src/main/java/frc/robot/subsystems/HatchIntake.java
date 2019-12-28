@@ -20,7 +20,7 @@ import frc.robot.commands.ManipulateHatch;
  * The extending mechanism used to collect hatch panels.
  */
 public class HatchIntake extends Subsystem {
-  Solenoid extender = new Solenoid(RobotMap.HATCH_EXTENDER_ID);
+  //Solenoid extender = new Solenoid(RobotMap.HATCH_EXTENDER_ID);
 
   @Override
   public void initDefaultCommand() {
@@ -29,17 +29,17 @@ public class HatchIntake extends Subsystem {
 
   public void hatchInOut() {
     if (Robot.oi.getOperatorLeftBumper()) {
-      extender.set(true);
+      //extender.set(true);
     } else if (Robot.oi.getOperatorRightBumper()) {
-      extender.set(false);
+      //extender.set(false);
     }
   }
   public void extend() {
-    extender.set(true);
+    //extender.set(true);
   }
 
   public void retract() {
-    extender.set(false);
+    //extender.set(false);
   }
 
 }
